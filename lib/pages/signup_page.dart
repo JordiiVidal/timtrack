@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:timtrack/bloc/user/user_bloc.dart';
+import 'package:timtrack/data/list.dart';
 
 import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/models/user_model.dart';
@@ -26,106 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Activity> _activities = [
-      Activity(
-        id: 1,
-        name: 'Running',
-        duration: 344,
-        avatar: 'd',
-        idCategory: 1,
-      ),
-      Activity(
-        id: 2,
-        name: 'Fishing',
-        duration: 44,
-        avatar: 'd',
-        idCategory: 2,
-      ),
-      Activity(
-        id: 3,
-        name: 'Read',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 2,
-      ),
-      Activity(
-        id: 3,
-        name: 'Water',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Music',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Read',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 2,
-      ),
-      Activity(
-        id: 3,
-        name: 'Water',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Music',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Read',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 2,
-      ),
-      Activity(
-        id: 3,
-        name: 'Water',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Music',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Read',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 2,
-      ),
-      Activity(
-        id: 3,
-        name: 'Water',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-      Activity(
-        id: 3,
-        name: 'Music',
-        duration: 320,
-        avatar: 'd',
-        idCategory: 3,
-      ),
-    ];
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -134,14 +35,13 @@ class _SignUpPageState extends State<SignUpPage> {
           SignUpBackground(
             size: size,
           ),
-          formLogic(_activities, context, size),
+          formLogic(context, size),
         ],
       ),
     );
   }
 
-  Widget formLogic(
-      List<Activity> _activities, BuildContext context, Size size) {
+  Widget formLogic(BuildContext context, Size size) {
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -154,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: EdgeInsets.symmetric(horizontal: 20),
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
@@ -190,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4),
                         physics: BouncingScrollPhysics(),
-                        itemCount: _activities.length,
+                        itemCount: activities.length,
                         itemBuilder: (BuildContext context, int index) =>
                             AnimationConfiguration.staggeredGrid(
                           position: index,
