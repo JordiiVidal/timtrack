@@ -109,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          '${_activities[index].name}',
+                                          '${activities[index].name}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 11,
