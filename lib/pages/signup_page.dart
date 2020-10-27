@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:timtrack/bloc/user/user_bloc.dart';
@@ -184,34 +185,42 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(16.0),
-                    child: StaggeredGridView.countBuilder(
-                      crossAxisCount: 4,
-                      mainAxisSpacing: 4.0,
-                      crossAxisSpacing: 4.0,
-                      staggeredTileBuilder: (int index) =>
-                          new StaggeredTile.count(1, 1),
-                      physics: BouncingScrollPhysics(),
-                      itemCount: _activities.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                child: CircleAvatar(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '${_activities[index].name}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 11,
+                    child: AnimationLimiter(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4),
+                        physics: BouncingScrollPhysics(),
+                        itemCount: _activities.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          duration: const Duration(milliseconds: 500),
+                          columnCount: 4,
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        child: CircleAvatar(),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '${_activities[index].name}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
