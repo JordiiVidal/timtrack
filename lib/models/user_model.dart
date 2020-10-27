@@ -11,9 +11,19 @@ class User {
     this.activities,
   });
 
-  int id;
-  String name;
-  List<int> activities;
+  final int id;
+  final String name;
+  final List<int> activities;
+
+  User copyWith({
+    String name,
+    List<int> activities,
+  }) {
+    return new User(
+      name: name ?? this.name,
+      activities: activities ?? this.activities,
+    );
+  }
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],

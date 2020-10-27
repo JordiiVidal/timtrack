@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:timtrack/models/activity_model.dart';
-import 'package:timtrack/widgets/activity_circle.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key key}) : super(key: key);
+import 'package:timtrack/bloc/user/user_bloc.dart';
+
+import 'package:timtrack/models/activity_model.dart';
+import 'package:timtrack/models/user_model.dart';
+import 'package:timtrack/widgets/signup_background.dart';
+
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,48 +61,238 @@ class SignUpPage extends StatelessWidget {
         avatar: 'd',
         idCategory: 3,
       ),
+      Activity(
+        id: 3,
+        name: 'Read',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 2,
+      ),
+      Activity(
+        id: 3,
+        name: 'Water',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 3,
+      ),
+      Activity(
+        id: 3,
+        name: 'Music',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 3,
+      ),
+      Activity(
+        id: 3,
+        name: 'Read',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 2,
+      ),
+      Activity(
+        id: 3,
+        name: 'Water',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 3,
+      ),
+      Activity(
+        id: 3,
+        name: 'Music',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 3,
+      ),
+      Activity(
+        id: 3,
+        name: 'Read',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 2,
+      ),
+      Activity(
+        id: 3,
+        name: 'Water',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 3,
+      ),
+      Activity(
+        id: 3,
+        name: 'Music',
+        duration: 320,
+        avatar: 'd',
+        idCategory: 3,
+      ),
     ];
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          SignUpBackground(
+            size: size,
+          ),
+          formLogic(_activities, context, size),
+        ],
+      ),
+    );
+  }
+
+  Widget formLogic(
+      List<Activity> _activities, BuildContext context, Size size) {
+    return SafeArea(
+      child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Nombre'),
             Container(
-              color: Colors.yellow,
-              child: TextField(),
+              margin: EdgeInsets.only(top: 40.0),
+              height: 100,
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(
+                        color: Color(0xff6d60f8),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: TextField(
+                      controller: myController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'example@mail.com',
+                        labelText: 'Name',
+                        icon: Icon(
+                          Icons.person_outline,
+                          color: Color.fromRGBO(63, 63, 156, 1.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: Stack(
                 children: [
                   Container(
-                    color: Colors.red,
-                    child: ListView.builder(
+                    padding: EdgeInsets.all(16.0),
+                    child: StaggeredGridView.countBuilder(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 4.0,
+                      crossAxisSpacing: 4.0,
+                      staggeredTileBuilder: (int index) =>
+                          new StaggeredTile.count(1, 1),
+                      physics: BouncingScrollPhysics(),
                       itemCount: _activities.length,
-                      itemBuilder: (c, i) => ActivityCircle(
-                        activity: _activities[i],
+                      itemBuilder: (BuildContext context, int index) =>
+                          Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                child: CircleAvatar(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '${_activities[index].name}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   Positioned(
                     bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      color: Colors.blue,
-                      child: RaisedButton(
-                        onPressed: () => {},
-                        child: Text('Empezar'),
-                      ),
-                    ),
-                  )
+                    left: size.width * 0.15,
+                    right: size.width * 0.15,
+                    child: buttonSignUp(context),
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  RaisedButton buttonSignUp(BuildContext context) {
+    return RaisedButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      padding: EdgeInsets.all(0),
+      elevation: 0.0,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              color: Color(0xff6d60f8),
+            ),
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Start',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 5,
+            top: 5,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.chevron_right,
+                  size: 30,
+                  color: Color(0xff6d60f8),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+      onPressed: () {
+        BlocProvider.of<UserBloc>(context).add(
+          ActivateUser(
+            User(
+              id: 1,
+              name: myController.text,
+              activities: [1, 2, 3],
+            ),
+          ),
+        );
+        Navigator.pushReplacementNamed(context, '/home');
+      },
     );
   }
 }
