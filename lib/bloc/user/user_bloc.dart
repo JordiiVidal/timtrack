@@ -15,6 +15,12 @@ class UserBloc extends Bloc<UserEvents, UserState> {
       yield UserState(userC: event.user);
     } else if (event is ChangeName) {
       yield UserState(userC: state.user.copyWith(name: event.name));
+    } else if (event is AddActivity) {
+      yield UserState(
+        userC: state.user.copyWith(
+          activities: [...state.user.activities, event.idActivity],
+        ),
+      );
     }
   }
 }

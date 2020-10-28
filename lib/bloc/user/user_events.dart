@@ -12,3 +12,8 @@ class ChangeName extends UserEvents {
   final String name;
   ChangeName(this.name);
 }
+
+class AddActivity extends UserEvents {
+  final int idActivity;
+  AddActivity(this.idActivity);
+}

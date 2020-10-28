@@ -24,6 +24,7 @@ class User {
       activities: activities ?? this.activities,
     );
   }
+  
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],

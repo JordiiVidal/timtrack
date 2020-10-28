@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:timtrack/bloc/user/user_bloc.dart';
 import 'package:timtrack/data/list.dart';
 
-import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/models/user_model.dart';
 import 'package:timtrack/widgets/signup_background.dart';
 
@@ -88,7 +86,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: AnimationLimiter(
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4),
+                          crossAxisCount: 4,
+                        ),
                         physics: BouncingScrollPhysics(),
                         itemCount: activities.length,
                         itemBuilder: (BuildContext context, int index) =>
@@ -160,11 +159,12 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Row(
               children: <Widget>[
                 Text(
-                  'Start',
+                  'Continue',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w400),
+                    color: Colors.white,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
