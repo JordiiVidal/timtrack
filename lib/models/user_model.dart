@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:timtrack/models/activity_model.dart';
+
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
 String userToJson(User data) => json.encode(data.toJson());
@@ -13,11 +15,11 @@ class User {
 
   final int id;
   final String name;
-  final List<int> activities;
+  final List<Activity> activities;
 
   User copyWith({
     String name,
-    List<int> activities,
+    List<Activity> activities,
   }) {
     return new User(
       name: name ?? this.name,
@@ -29,7 +31,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
-        activities: List<int>.from(json["activities"].map((x) => x)),
+        activities: List<Activity>.from(json["activities"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {

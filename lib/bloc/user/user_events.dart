@@ -14,6 +14,11 @@ class ChangeName extends UserEvents {
 }
 
 class AddActivity extends UserEvents {
-  final int idActivity;
-  AddActivity(this.idActivity);
+  final Activity activity;
+  AddActivity(this.activity);
+}
+
+class DeleteActivity extends UserEvents {
+  final Activity activity;
+  DeleteActivity(this.activity);
 }

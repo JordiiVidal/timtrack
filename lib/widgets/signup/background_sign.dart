@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SignUpBackground extends StatelessWidget {
+class BackgroundSign extends StatelessWidget {
   final Size size;
-  const SignUpBackground({Key key, this.size}) : super(key: key);
+  const BackgroundSign({Key key, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

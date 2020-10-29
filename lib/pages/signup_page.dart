@@ -1,27 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:timtrack/bloc/user/user_bloc.dart';
+import 'package:timtrack/widgets/signup/activities_grid_sign.dart';
+import 'package:timtrack/widgets/input_name.dart';
+import 'package:timtrack/widgets/signup/background_sign.dart';
 
-import 'package:timtrack/models/user_model.dart';
-import 'package:timtrack/widgets/activities_grid_sign.dart';
-import 'package:timtrack/widgets/signup_background.dart';
-
-class SignUpPage extends StatefulWidget {
-  @override
-  _SignUpPageState createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  final _formKey = GlobalKey<FormState>();
-  final myController = TextEditingController();
-
-  @override
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
-
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -29,76 +12,38 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          SignUpBackground(
+          BackgroundSign(
             size: size,
           ),
           SafeArea(
-            child: formLogic(context, size),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget formLogic(BuildContext context, Size size) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              top: 18.0,
-              bottom: 8.0,
-            ),
-            child: Text(
-              'TIMTRACK',
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20.0),
-            height: 100,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(
-                      color: Color(0xff6d60f8),
-                    ),
-                    color: Colors.white,
+                  padding: EdgeInsets.only(
+                    top: 18.0,
+                    bottom: 8.0,
                   ),
-                  child: TextField(
-                    controller: myController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'example@mail.com',
-                      labelText: 'Name',
-                      icon: Icon(
-                        Icons.person_outline,
-                        color: Color.fromRGBO(63, 63, 156, 1.0),
-                      ),
+                  child: Text(
+                    'TIMTRACK',
+                    style: TextStyle(
+                      fontSize: 20.0,
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                ActivitiesGridSign(),
-                Positioned(
-                  bottom: 0,
-                  left: size.width * 0.15,
-                  right: size.width * 0.15,
-                  child: buttonSignUp(context),
+                InputName(),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      ActivitiesGridSign(),
+                      Positioned(
+                        bottom: 0,
+                        left: size.width * 0.15,
+                        right: size.width * 0.15,
+                        child: buttonSignUp(context),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -163,15 +108,6 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
         onPressed: () {
-          BlocProvider.of<UserBloc>(context).add(
-            ActivateUser(
-              User(
-                id: 1,
-                name: myController.text,
-                activities: [1, 2, 3],
-              ),
-            ),
-          );
           Navigator.pushReplacementNamed(context, '/home');
         },
       ),

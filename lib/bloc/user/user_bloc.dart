@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart'; //material ligero
+import 'package:timtrack/models/activity_model.dart';
 
 import 'package:timtrack/models/user_model.dart';
 
@@ -12,13 +13,21 @@ class UserBloc extends Bloc<UserEvents, UserState> {
   @override
   Stream<UserState> mapEventToState(UserEvents event) async* {
     if (event is ActivateUser) {
-      yield UserState(userC: event.user);
+      yield state.copyWith(user: event.user);
     } else if (event is ChangeName) {
-      yield UserState(userC: state.user.copyWith(name: event.name));
+      yield state.copyWith(user: state.user.copyWith(name: event.name));
     } else if (event is AddActivity) {
-      yield UserState(
-        userC: state.user.copyWith(
-          activities: [...state.user.activities, event.idActivity],
+      yield state.copyWith(
+        user: state.user.copyWith(
+          activities: [...state.user.activities, event.activity],
+        ),
+      );
+    } else if (event is DeleteActivity) {
+      List<Activity> _activities = state.user.activities;
+      _activities.removeWhere((activity) => activity.id == event.activity.id);
+      yield state.copyWith(
+        user: state.user.copyWith(
+          activities: _activities,
         ),
       );
     }
