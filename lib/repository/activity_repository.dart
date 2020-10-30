@@ -8,4 +8,7 @@ class ActivityRepository {
       DBProvider.db.createActivity(activity);
 
   Future deleteActivity(int id) => DBProvider.db.deleteActivity(id);
+
+  Future updateActivity(Activity activity) =>
+      DBProvider.db.updateActivity(activity);
 }

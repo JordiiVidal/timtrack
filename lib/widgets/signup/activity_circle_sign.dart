@@ -15,18 +15,21 @@ class ActivityCircle extends StatelessWidget {
     ActivityBloc activityBloc = BlocProvider.of<ActivityBloc>(context);
 
     return GestureDetector(
-      onTap: () => activityBloc.add(ChangeActiveActivity(activity.id)),
+      onTap: () {
+        activity.active = !activity.active;
+        activityBloc.add(UpdateActivity(activity));
+      },
       child: Container(
-        padding: const EdgeInsets.all(1.0),
+        margin: EdgeInsets.only(top: 10),
         child: Column(
           children: <Widget>[
             Container(
               child: CircleAvatar(
-                maxRadius: activity.active ? 30 : 23,
+                maxRadius: activity.active ? 24 : 20,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(top: 8.0),
               child: Text(
                 '${activity.name}',
                 style: TextStyle(

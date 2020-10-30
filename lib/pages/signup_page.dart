@@ -105,7 +105,7 @@ class SignUpPage extends StatelessWidget {
             )
           ],
         ),
-        onPressed: () async {
+        onPressed: () {
           Navigator.pushReplacementNamed(context, '/home');
         },
       ),

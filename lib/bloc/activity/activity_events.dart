@@ -7,9 +7,9 @@ class GetActivities extends ActivityEvents {
   GetActivities({String query});
 }
 
-class ChangeActiveActivity extends ActivityEvents {
-  final int id;
-  ChangeActiveActivity(this.id);
+class UpdateActivity extends ActivityEvents {
+  final Activity activity;
+  UpdateActivity(this.activity);
 }
 
 class AddActivity extends ActivityEvents {

@@ -30,9 +30,9 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300),duration INT,active INT)');
+          'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300),duration INT,active INT, deleted INT)');
       await db.execute(
-          'INSERT INTO `activity` (`id`, `name`, `duration`,`active`) VALUES (NULL, "Sleep", 322,0), (NULL, "Read", 33,0), (NULL, "Water", 2,0), (NULL, "Eat", 2,0), (NULL, "Play", 245 ,0);');
+          'INSERT INTO `activity` (`id`, `name`, `duration`,`active`,`deleted`) VALUES (NULL, "Sleep", 322,0,0), (NULL, "Read", 33,0,0), (NULL, "Water", 2,0,0), (NULL, "Eat", 2,0,0), (NULL, "Play", 245 ,0,0);');
     });
   }
 
@@ -56,6 +56,13 @@ class DBProvider {
     final db = await database;
     final result =
         await db.delete('Activity', where: 'id = ?', whereArgs: [id]);
+    return result;
+  }
+
+  Future<int> updateActivity(Activity activityModel) async {
+    final db = await database;
+    final result = await db.update('Activity', activityModel.toJson(),
+        where: 'id = ?', whereArgs: [activityModel.id]);
     return result;
   }
 }

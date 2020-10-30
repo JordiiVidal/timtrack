@@ -19,9 +19,24 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(
+              color: Colors.black87,
+              size: 18,
+            ),
+            color: Colors.white,
+            textTheme: TextTheme(
+              title: TextStyle(
+                color: Colors.black87,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            elevation: 1,
+          ),
         ),
         routes: routes,
-        initialRoute: '/loading',
+        initialRoute: '/',
       ),
     );
   }

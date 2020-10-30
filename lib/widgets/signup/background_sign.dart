@@ -11,8 +11,9 @@ class BackgroundSign extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.elliptical(100, 20),
-            bottomRight: Radius.elliptical(100, 20)),
+          bottomLeft: Radius.elliptical(100, 20),
+          bottomRight: Radius.elliptical(100, 20),
+        ),
         gradient: LinearGradient(
           colors: <Color>[
             Color.fromRGBO(63, 63, 156, 1.0),

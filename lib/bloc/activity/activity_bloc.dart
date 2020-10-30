@@ -15,15 +15,16 @@ class ActivityBloc extends Bloc<ActivityEvents, ActivityState> {
     if (event is GetActivities) {
       List<Activity> activities = await _activityRepository.getActivities();
       yield state.copyWith(list: activities);
-    } else if (event is ChangeActiveActivity) {
-      List<Activity> activities = state.list;
-      print(activities[0].active);
-      activities.forEach((element) {
-        ///TODO UPDATE DB
-        if (element.id == event.id) element.active = !element.active;
-      });
-
-      print(activities[0].active);
+    } else if (event is UpdateActivity) {
+      ///todo try catch loading loaded ...
+      await _activityRepository.updateActivity(event.activity);
+      List<Activity> activities = await _activityRepository.getActivities();
+      yield state.copyWith(list: activities);
+    }
+     else if (event is AddActivity) {
+      ///todo try catch loading loaded ...
+      await _activityRepository.createActivity(event.activity);
+      List<Activity> activities = await _activityRepository.getActivities();
       yield state.copyWith(list: activities);
     }
     // else if (event is AddActivity) {
