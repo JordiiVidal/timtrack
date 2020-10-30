@@ -9,29 +9,29 @@ class Activity {
     this.id,
     this.name,
     this.duration,
-    this.avatar,
-    this.idCategory,
+    this.active,
+    this.deleted,
   });
 
   int id;
   String name;
   int duration;
-  String avatar;
-  int idCategory;
+  bool active;
+  bool deleted;
 
   factory Activity.fromJson(Map<String, dynamic> json) => Activity(
         id: json["id"],
         name: json["name"],
         duration: json["duration"],
-        avatar: json["avatar"],
-        idCategory: json["idCategory"],
+        active: json["active"] == 1 ? true : false,
+        deleted: json["deleted"] == 1 ? true : false,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "duration": duration,
-        "avatar": avatar,
-        "idCategory": idCategory,
+        "active": active ? 1 : 0,
+        "deleted": deleted ? 1 : 0,
       };
 }

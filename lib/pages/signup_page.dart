@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:timtrack/widgets/signup/activities_grid_sign.dart';
-import 'package:timtrack/widgets/input_name.dart';
 import 'package:timtrack/widgets/signup/background_sign.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -31,7 +30,6 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                InputName(),
                 Expanded(
                   child: Stack(
                     children: [
@@ -107,7 +105,7 @@ class SignUpPage extends StatelessWidget {
             )
           ],
         ),
-        onPressed: () {
+        onPressed: () async {
           Navigator.pushReplacementNamed(context, '/home');
         },
       ),

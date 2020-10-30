@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:timtrack/bloc/activity/activity_bloc.dart';
 
-import 'package:timtrack/bloc/user/user_bloc.dart';
-import 'package:timtrack/data/list.dart';
 import 'package:timtrack/widgets/signup/activity_circle_sign.dart';
 
-class ActivitiesGridSign extends StatelessWidget {
+class ActivitiesGridSign extends StatefulWidget {
+  @override
+  _ActivitiesGridSignState createState() => _ActivitiesGridSignState();
+}
+
+class _ActivitiesGridSignState extends State<ActivitiesGridSign> {
+  ActivityBloc activityBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    activityBloc = BlocProvider.of<ActivityBloc>(context);
+    activityBloc.add(GetActivities());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocBuilder<ActivityBloc, ActivityState>(
       builder: (_, state) {
+        if (state.list.isEmpty) {
+          return Container();
+        }
         return Container(
           padding: EdgeInsets.symmetric(
             horizontal: 16.0,
@@ -21,7 +37,7 @@ class ActivitiesGridSign extends StatelessWidget {
                 crossAxisCount: 4,
               ),
               physics: BouncingScrollPhysics(),
-              itemCount: activities.length,
+              itemCount: state.list.length,
               itemBuilder: (BuildContext context, int index) =>
                   AnimationConfiguration.staggeredGrid(
                 position: index,
@@ -30,7 +46,7 @@ class ActivitiesGridSign extends StatelessWidget {
                 child: ScaleAnimation(
                   child: FadeInAnimation(
                     child: ActivityCircle(
-                      activity: activities[index],
+                      activity: state.list[index],
                       state: state,
                     ),
                   ),

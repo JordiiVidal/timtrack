@@ -1,10 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-import 'package:timtrack/bloc/user/user_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -83,20 +80,7 @@ class _HomePageState extends State<HomePage> {
           height: 100,
           width: double.infinity,
           color: Colors.red,
-          child: BlocBuilder<UserBloc, UserState>(
-            builder: (_, state) {
-              if (state.existUser) {
-                return Container(
-                  child: Text(
-                      'Usuario registrado ${state.user.name} y tiene ${state.user.activities.length}'),
-                );
-              } else {
-                return Container(
-                  child: Text('Please Complete SignUp'),
-                );
-              }
-            },
-          ),
+          child: Container(),
         ),
         Expanded(
           child: Container(
