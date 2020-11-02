@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:timtrack/bloc/activity/activity_bloc.dart';
 import 'package:timtrack/models/activity_model.dart';
+import 'package:timtrack/widgets/activity_listtile.dart';
 
 class AddActivityPage extends StatelessWidget {
   const AddActivityPage({Key key}) : super(key: key);
@@ -62,47 +63,14 @@ class AddActivityPage extends StatelessWidget {
               builder: (context, state) {
                 return ListView.builder(
                   itemCount: state.list.length,
-                  itemBuilder: (c, i) => activityTile(state, i),
+                  itemBuilder: (c, i) =>
+                      ActivityListTile(activity: state.list[i]),
                 );
               },
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget activityTile(ActivityState state, int i) {
-    return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
-      child: ListTile(
-        title: Text(state.list[i].name),
-      ),
-      actions: <Widget>[
-        IconSlideAction(
-          caption: 'Archive',
-          color: Colors.blue,
-          icon: Icons.archive,
-        ),
-        IconSlideAction(
-          caption: 'Share',
-          color: Colors.indigo,
-          icon: Icons.share,
-        ),
-      ],
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'More',
-          color: Colors.black45,
-          icon: Icons.more_horiz,
-        ),
-        IconSlideAction(
-          caption: 'Delete',
-          color: Colors.red,
-          icon: Icons.delete,
-        ),
-      ],
     );
   }
 }

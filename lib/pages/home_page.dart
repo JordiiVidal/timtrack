@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:timtrack/widgets/cycle_list.dart';
 import 'package:timtrack/widgets/signup/activities_grid_sign.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               minHeight: _panelHeightClosed,
               parallaxEnabled: true,
               parallaxOffset: .5,
-              body: _body(),
+              body: CycleList(),
               panelBuilder: (sc) => _panel(sc, _panelHeightOpen),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(18.0),
@@ -77,15 +78,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _body() {
-    return ListView.builder(
-      itemCount: 132,
-      itemBuilder: (_, i) => ListTile(
-        title: Text('Test'),
       ),
     );
   }

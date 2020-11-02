@@ -26,6 +26,7 @@ class ActivityCircle extends StatelessWidget {
             Container(
               child: CircleAvatar(
                 maxRadius: activity.active ? 24 : 20,
+                child: Text('${activity.name[0]}'),
               ),
             ),
             Padding(

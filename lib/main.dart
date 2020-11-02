@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timtrack/bloc/activity/activity_bloc.dart';
+import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 
 import 'package:timtrack/routes/routes.dart';
 
@@ -12,7 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => new ActivityBloc())],
+      providers: [
+        BlocProvider(create: (_) => new ActivityBloc()),
+        BlocProvider(create: (_) => new CycleBloc()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'TimTrack',

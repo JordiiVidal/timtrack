@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 import 'package:timtrack/models/activity_model.dart';
+import 'package:timtrack/models/cycle_model.dart';
 
 class DBProvider {
   static Database _database;
@@ -32,9 +34,13 @@ class DBProvider {
       await db.execute(
           'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300),duration INT,active INT, deleted INT)');
       await db.execute(
+          'CREATE TABLE Cycle(id INTEGER PRIMARY KEY AUTOINCREMENT,id_activity INT,date_start INT(100),date_end INT(100) NULL, active INT)');
+      await db.execute(
           'INSERT INTO `activity` (`id`, `name`, `duration`,`active`,`deleted`) VALUES (NULL, "Sleep", 322,0,0), (NULL, "Read", 33,0,0), (NULL, "Water", 2,0,0), (NULL, "Eat", 2,0,0), (NULL, "Play", 245 ,0,0);');
     });
   }
+
+////ACTIVITY
 
   Future<int> createActivity(Activity activityModel) async {
     final db = await database;
@@ -52,6 +58,12 @@ class DBProvider {
     return list;
   }
 
+  Future<Activity> getActivity(int id) async {
+    final db = await database;
+    final result = await db.query('Activity', where: 'id = ?', whereArgs: [id]);
+    return result.isNotEmpty ? Activity.fromJson(result.first) : null;
+  }
+
   Future<int> deleteActivity(int id) async {
     final db = await database;
     final result =
@@ -63,6 +75,47 @@ class DBProvider {
     final db = await database;
     final result = await db.update('Activity', activityModel.toJson(),
         where: 'id = ?', whereArgs: [activityModel.id]);
+    return result;
+  }
+
+  ///CYCLE
+
+  Future<int> createCycle(Activity activity) async {
+    final db = await database;
+    final result = await db.insert(
+      'Cycle',
+      Cycle(
+        activity: activity,
+        dateStart: new DateTime.now().millisecondsSinceEpoch,
+        dateEnd: null,
+        active: false,
+      ).toJson(),
+    );
+    return result;
+  }
+
+  Future<List<Cycle>> getCycles() async {
+    final db = await database;
+    final result = await db.rawQuery(
+        'select Activity.id as id_activity, Activity.name, Activity.duration, Cycle.* from Cycle left join Activity where Activity.id = Cycle.id_activity order by Cycle.date_start DESC');
+    List<Cycle> list = result.isNotEmpty
+        ? result.map((scan) => Cycle.fromJsonJoin(scan)).toList()
+        : [];
+
+    return list;
+  }
+
+  Future<int> deleteCycle(int id) async {
+    final db = await database;
+    final result =
+        await db.delete('Activity', where: 'id = ?', whereArgs: [id]);
+    return result;
+  }
+
+  Future<int> updateCycle(Cycle cycleModel) async {
+    final db = await database;
+    final result = await db.update('Cycle', cycleModel.toJson(),
+        where: 'id = ?', whereArgs: [cycleModel.id]);
     return result;
   }
 }

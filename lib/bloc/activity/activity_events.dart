@@ -18,6 +18,6 @@ class AddActivity extends ActivityEvents {
 }
 
 class DeleteActivity extends ActivityEvents {
-  final Activity activity;
-  DeleteActivity(this.activity);
+  final int id;
+  DeleteActivity(this.id);
 }
