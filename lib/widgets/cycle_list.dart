@@ -23,13 +23,20 @@ class _CycleListState extends State<CycleList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xfff0f0f0),
+      color: Colors.red,
       child: BlocBuilder<CycleBloc, CycleState>(
         builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.list.length,
-            itemBuilder: (_, i) => CycleListTile(
-              cycle: state.list[i],
+          if (state.list.isEmpty) {
+            return Container();
+          }
+          return Container(
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: state.list.length,
+              itemBuilder: (_, i) => CycleListTile(
+                cycle: state.list[i],
+              ),
             ),
           );
         },

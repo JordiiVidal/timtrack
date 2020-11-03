@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:timtrack/models/cycle_model.dart';
@@ -77,9 +77,21 @@ class _CycleListTileState extends State<CycleListTile> {
               );
             },
           ),
-          trailing: CircleAvatar(
-            radius: 10,
-            backgroundColor: Color(0xff11d764),
+          trailing: Container(
+            width: 30,
+            height: 30,
+            child: LiquidCircularProgressIndicator(
+              value: 0.50, // Defaults to 0.5.
+              valueColor: AlwaysStoppedAnimation(
+                Colors.pink,
+              ), // Defaults to the current Theme's accentColor.
+              backgroundColor: Colors
+                  .white, // Defaults to the current Theme's backgroundColor.
+              borderColor: Colors.red,
+              borderWidth: 2.0,
+              direction: Axis
+                  .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+            ),
           ),
         ),
       ),

@@ -28,7 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _panelHeightOpen = MediaQuery.of(context).size.height * .80;
+    Size size = MediaQuery.of(context).size;
+    _panelHeightOpen = size.height * .80;
     return Scaffold(
       appBar: AppBar(
         title: Text('TIMTRACK'),
@@ -41,42 +42,36 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            SlidingUpPanel(
-              controller: panelController,
-              maxHeight: _panelHeightOpen,
-              minHeight: _panelHeightClosed,
-              parallaxEnabled: true,
-              parallaxOffset: .5,
-              body: CycleList(),
-              panelBuilder: (sc) => _panel(sc, _panelHeightOpen),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(18.0),
-                topRight: Radius.circular(18.0),
-              ),
-            ),
-            // the fab
-            Positioned(
-              right: 20.0,
-              bottom: _fabHeight,
-              child: FloatingActionButton(
-                foregroundColor: Colors.white,
-                child: Icon(
-                  Icons.play_arrow,
-                ),
-                onPressed: () {
-                  panelController.isPanelOpen
-                      ? panelController.close()
-                      : panelController.open();
-                },
-                backgroundColor: Color(0xff494949),
-              ),
+      body: SlidingUpPanel(
+        controller: panelController,
+        maxHeight: _panelHeightOpen,
+        minHeight: _panelHeightClosed,
+        parallaxEnabled: true,
+        parallaxOffset: .5,
+        body: Column(
+          children: [
+            Expanded(
+              child: CycleList(),
             ),
           ],
         ),
+        panelBuilder: (sc) => _panel(sc, _panelHeightOpen),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.0),
+          topRight: Radius.circular(18.0),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
+        child: Icon(
+          Icons.play_arrow,
+        ),
+        onPressed: () {
+          panelController.isPanelOpen
+              ? panelController.close()
+              : panelController.open();
+        },
+        backgroundColor: Color(0xff494949),
       ),
     );
   }
