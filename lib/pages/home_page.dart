@@ -68,12 +68,11 @@ class _HomePageState extends State<HomePage> {
                   Icons.play_arrow,
                 ),
                 onPressed: () {
-                  print(panelController.isAttached);
                   panelController.isPanelOpen
                       ? panelController.close()
                       : panelController.open();
                 },
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Color(0xff494949),
               ),
             ),
           ],
