@@ -32,11 +32,9 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300),duration INT,active INT, deleted INT)');
+          'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300), deleted INT)');
       await db.execute(
-          'CREATE TABLE Cycle(id INTEGER PRIMARY KEY AUTOINCREMENT,id_activity INT,date_start INT(100),date_end INT(100) NULL, active INT)');
-      await db.execute(
-          'INSERT INTO `activity` (`id`, `name`, `duration`,`active`,`deleted`) VALUES (NULL, "Sleep", 322,0,0), (NULL, "Read", 33,0,0), (NULL, "Water", 2,0,0), (NULL, "Eat", 2,0,0), (NULL, "Play", 245 ,0,0);');
+          'CREATE TABLE Cycle(id INTEGER PRIMARY KEY AUTOINCREMENT,id_activity INT,date_start INT(100),date_end INT(100) NULL, status INT, duration INT(100) NULL)');
     });
   }
 
@@ -88,7 +86,7 @@ class DBProvider {
         activity: activity,
         dateStart: new DateTime.now().millisecondsSinceEpoch,
         dateEnd: null,
-        active: false,
+        status: StatusCycle.ongoing,
       ).toJson(),
     );
     return result;
@@ -97,7 +95,7 @@ class DBProvider {
   Future<List<Cycle>> getCycles() async {
     final db = await database;
     final result = await db.rawQuery(
-        'select Activity.id as id_activity, Activity.name, Activity.duration, Cycle.* from Cycle left join Activity where Activity.id = Cycle.id_activity order by Cycle.date_start DESC');
+        'select Activity.id as id_activity, Activity.name, Cycle.* from Cycle left join Activity where Activity.id = Cycle.id_activity order by Cycle.date_start DESC');
     List<Cycle> list = result.isNotEmpty
         ? result.map((scan) => Cycle.fromJsonJoin(scan)).toList()
         : [];

@@ -22,25 +22,43 @@ class _CycleListState extends State<CycleList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      child: BlocBuilder<CycleBloc, CycleState>(
-        builder: (context, state) {
-          if (state.list.isEmpty) {
-            return Container();
-          }
-          return Container(
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              itemCount: state.list.length,
-              itemBuilder: (_, i) => CycleListTile(
-                cycle: state.list[i],
-              ),
+    return BlocBuilder<CycleBloc, CycleState>(
+      builder: (context, state) {
+        if (state.list.isEmpty) {
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: [
+                Container(
+                  width: 100,
+                  child: Image.asset('assets/empty_list.png'),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Text(
+                    "You'r so lazy ...",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.grey[500]),
+                  ),
+                )
+              ],
             ),
           );
-        },
-      ),
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          itemCount: state.list.length,
+          itemBuilder: (_, i) => CycleListTile(
+            cycle: state.list[i],
+            isLast: i == state.list.length - 1 ? true : false,
+          ),
+        );
+      },
     );
   }
 }

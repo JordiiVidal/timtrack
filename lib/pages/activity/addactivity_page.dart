@@ -44,8 +44,6 @@ class AddActivityPage extends StatelessWidget {
                           Activity(
                             name: _textEditingController.text,
                             deleted: false,
-                            active: false,
-                            duration: 1,
                           ),
                         ),
                       );

@@ -22,5 +22,10 @@ class CycleBloc extends Bloc<CycleEvents, CycleState> {
       List<Cycle> cycles = await _cycleRepository.getCycles();
       yield state.copyWith(list: cycles);
     }
+    else if (event is UpdateCycle) {
+      await _cycleRepository.updateCycle(event.cycle);
+      List<Cycle> cycles = await _cycleRepository.getCycles();
+      yield state.copyWith(list: cycles);
+    }
   }
 }

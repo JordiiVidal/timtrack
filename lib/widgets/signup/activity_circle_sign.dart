@@ -16,7 +16,6 @@ class ActivityCircle extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        activity.active = !activity.active;
         activityBloc.add(UpdateActivity(activity));
       },
       child: Container(
@@ -25,7 +24,6 @@ class ActivityCircle extends StatelessWidget {
           children: <Widget>[
             Container(
               child: CircleAvatar(
-                maxRadius: activity.active ? 24 : 20,
                 child: Text('${activity.name[0]}'),
               ),
             ),

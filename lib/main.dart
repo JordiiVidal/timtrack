@@ -5,9 +5,7 @@ import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 
 import 'package:timtrack/routes/routes.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,7 +26,7 @@ class MyApp extends StatelessWidget {
               color: Colors.black87,
               size: 18,
             ),
-            color: Colors.white,
+            color: Colors.transparent,
             textTheme: TextTheme(
               title: TextStyle(
                 color: Colors.black87,
@@ -36,11 +34,11 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            elevation: 1,
+            elevation: 0,
           ),
         ),
         routes: routes,
-        initialRoute: '/',
+        initialRoute: '/home',
       ),
     );
   }

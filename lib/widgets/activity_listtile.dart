@@ -11,38 +11,16 @@ class ActivityListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
-      child: ListTile(
-        title: Text(activity.name),
+    return ListTile(
+      title: Text(activity.name),
+      leading: IconButton(
+        icon: Icon(Icons.filter_list),
+        onPressed: () => {
+          BlocProvider.of<CycleBloc>(context).add(
+            AddCycle(activity),
+          )
+        },
       ),
-      actions: <Widget>[
-        IconSlideAction(
-          caption: 'Start',
-          color: Colors.blue,
-          icon: Icons.play_arrow,
-          closeOnTap: false,
-          onTap: () {
-            BlocProvider.of<CycleBloc>(context).add(
-              AddCycle(activity),
-            );
-          },
-        ),
-      ],
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Delete',
-          color: Colors.red,
-          icon: Icons.delete,
-          closeOnTap: true,
-          onTap: () {
-            BlocProvider.of<ActivityBloc>(context).add(
-              DeleteActivity(activity.id),
-            );
-          },
-        ),
-      ],
     );
   }
 }
