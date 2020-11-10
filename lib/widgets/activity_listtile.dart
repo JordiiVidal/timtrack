@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:timtrack/bloc/activity/activity_bloc.dart';
 import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 import 'package:timtrack/models/activity_model.dart';
 

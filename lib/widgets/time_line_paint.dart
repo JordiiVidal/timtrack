@@ -10,10 +10,16 @@ class TimeLinePaint extends CustomPainter {
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 2;
 
-    final path = new Path(); // 0,0
-    path.lineTo(0, size.height);
+    var max = size.height; // size gets to width
+    var dashWidth = 5;
+    var dashSpace = 5;
+    double startX = 0;
+    final space = (dashSpace + dashWidth);
 
-    canvas.drawPath(path, paint);
+    while (startX < max) {
+      canvas.drawLine(Offset(0, startX), Offset(0, startX + dashWidth), paint);
+      startX += space;
+    }
   }
 
   @override
