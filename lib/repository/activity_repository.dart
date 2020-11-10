@@ -1,14 +1,17 @@
-import 'package:timtrack/providers/db_provider.dart';
+import 'package:timtrack/dao/activity_dao.dart';
 import 'package:timtrack/models/activity_model.dart';
 
 class ActivityRepository {
-  Future getActivities() => DBProvider.db.getActivities();
+
+  final ActivityDao activityDao = ActivityDao();
+
+  Future getActivities() => activityDao.getActivities();
 
   Future createActivity(Activity activity) =>
-      DBProvider.db.createActivity(activity);
+      activityDao.createActivity(activity);
 
-  Future deleteActivity(int id) => DBProvider.db.deleteActivity(id);
+  Future deleteActivity(int id) => activityDao.deleteActivity(id);
 
   Future updateActivity(Activity activity) =>
-      DBProvider.db.updateActivity(activity);
+      activityDao.updateActivity(activity);
 }

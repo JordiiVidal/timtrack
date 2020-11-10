@@ -1,49 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
-import 'package:timtrack/widgets/cycle_listitle.dart';
+import 'package:timtrack/bloc/cycles/cycles_bloc.dart';
+import 'package:timtrack/bloc/cycles/cycles_state.dart';
+import 'package:timtrack/widgets/cycle_item.dart';
+import 'package:timtrack/widgets/empty_list.dart';
 
 class CycleList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CycleBloc, CycleState>(
-      
+    return BlocBuilder<CyclesBloc, CyclesState>(
       builder: (context, state) {
-        print('${state.list.length} - lista');
-        if (state.list.isEmpty) {
-          return Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              children: [
-                Container(
-                  width: 100,
-                  child: Image.asset('assets/empty_list.png'),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Text(
-                    "You'r so lazy ...",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.grey[500]),
-                  ),
-                )
-              ],
+        if (state is CylcesLoadInProgress) {
+          return Container(
+            child: CircularProgressIndicator(),
+            width: 40,
+            height: 40,
+          );
+        } else if (state is CyclesLoadSuccess) {
+          final cycles = state.cycles;
+          if (cycles.isEmpty)
+            return EmptyList(
+              asset: 'assets/empty_list.png',
+              text: "You'r so lazy ...",
+            );
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemCount: cycles.length,
+            itemBuilder: (_, i) => CycleItem(
+              cycle: cycles[i],
+              isLast: i == cycles.length - 1 ? true : false,
             ),
           );
         }
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemCount: state.list.length,
-          itemBuilder: (_, i) => CycleListTile(
-            cycle: state.list[i],
-            isLast: i == state.list.length - 1 ? true : false,
-          ),
-        );
       },
     );
   }

@@ -1,23 +1,16 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/providers/db_provider.dart';
-
 import 'package:timtrack/models/cycle_model.dart';
 
 class CycleDao {
-  final dbProvider = DBProvider.db;
+  final DBProvider dbProvider = DBProvider.db;
 
-  Future<int> createCycle(Activity activity) async {
+  Future<int> createCycle(Cycle cycle) async {
     final db = await dbProvider.database;
     final result = await db.insert(
       'Cycle',
-      Cycle(
-        activity: activity,
-        dateStart: new DateTime.now().millisecondsSinceEpoch,
-        dateEnd: null,
-        status: StatusCycle.ongoing,
-      ).toJson(),
+      cycle.toJson(),
     );
     return result;
   }
@@ -33,7 +26,7 @@ class CycleDao {
     return list;
   }
 
-  Future<int> deleteCycle(int id) async {
+  Future<int> deleteCycle(String id) async {
     final db = await dbProvider.database;
     final result = await db.delete('Cycle', where: 'id = ?', whereArgs: [id]);
     return result;
@@ -41,8 +34,12 @@ class CycleDao {
 
   Future<int> updateCycle(Cycle cycleModel) async {
     final db = await dbProvider.database;
-    final result = await db.update('Cycle', cycleModel.toJson(),
-        where: 'id = ?', whereArgs: [cycleModel.id]);
+    final result = await db.update(
+      'Cycle',
+      cycleModel.toJson(),
+      where: 'id = ?',
+      whereArgs: [cycleModel.id],
+    );
     return result;
   }
 

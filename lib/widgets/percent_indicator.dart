@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
+import 'package:timtrack/bloc/cycles/cycles_bloc.dart';
+import 'package:timtrack/bloc/cycles/cycles_state.dart';
 
 class PercentIndicator extends StatelessWidget {
   final Size size;
@@ -15,20 +16,16 @@ class PercentIndicator extends StatelessWidget {
         vertical: 15.0,
         horizontal: size.width * 0.1,
       ),
-      child: BlocBuilder<CycleBloc, CycleState>(
+      child: BlocBuilder<CyclesBloc, CyclesState>(
         builder: (context, state) {
-          final double percent = (state.totalCycles == 0)
-              ? 0
-              : (state.completedCycles / state.totalCycles) * 10;
-              print(state.completedCycles);
-              print(state.totalCycles);
+          
           return Row(
             children: [
               LinearPercentIndicator(
                 width: size.width * 0.80,
                 lineHeight: 14.0,
-                percent: percent,
-                center: Text('$percent %'),
+                percent: 0.4,
+                center: Text('s %'),
                 backgroundColor: Colors.white,
                 progressColor: Color(0xff2dd2b4),
                 linearStrokeCap: LinearStrokeCap.roundAll,

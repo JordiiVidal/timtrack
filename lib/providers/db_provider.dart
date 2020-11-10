@@ -33,48 +33,13 @@ class DBProvider {
       await db.execute(
           'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300), deleted INT)');
       await db.execute(
-          'CREATE TABLE Cycle(id INTEGER PRIMARY KEY AUTOINCREMENT,id_activity INT,date_start INT(100),date_end INT(100) NULL, status INT, duration INT(100) NULL)');
+          'CREATE TABLE Cycle(id VARCHAR(300) PRIMARY KEY,id_activity INT,date_start INT(100),date_end INT(100) NULL, status INT, duration INT(100) NULL)');
     });
   }
 
 ////ACTIVITY
 
-  Future<int> createActivity(Activity activityModel) async {
-    final db = await database;
-    final result = await db.insert('Activity', activityModel.toJson());
-    return result;
-  }
-
-  Future<List<Activity>> getActivities() async {
-    final db = await database;
-    final result = await db.query('Activity');
-    List<Activity> list = result.isNotEmpty
-        ? result.map((scan) => Activity.fromJson(scan)).toList()
-        : [];
-
-    return list;
-  }
-
-  Future<Activity> getActivity(int id) async {
-    final db = await database;
-    final result = await db.query('Activity', where: 'id = ?', whereArgs: [id]);
-    return result.isNotEmpty ? Activity.fromJson(result.first) : null;
-  }
-
-  Future<int> deleteActivity(int id) async {
-    final db = await database;
-    final result =
-        await db.delete('Activity', where: 'id = ?', whereArgs: [id]);
-    return result;
-  }
-
-  Future<int> updateActivity(Activity activityModel) async {
-    final db = await database;
-    final result = await db.update('Activity', activityModel.toJson(),
-        where: 'id = ?', whereArgs: [activityModel.id]);
-    return result;
-  }
-
+  
   ///CYCLE
 
   Future<int> createCycle(Activity activity) async {

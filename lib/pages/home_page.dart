@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
-import 'package:timtrack/widgets/appbar_custom.dart';
+import 'package:timtrack/widgets/app_bar_custom.dart';
 import 'package:timtrack/widgets/cycle_list.dart';
 import 'package:timtrack/widgets/percent_indicator.dart';
 
@@ -11,16 +9,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  CycleBloc cycleBloc;
   @override
   void initState() {
     super.initState();
   }
 
-  void initiData() async {
-    cycleBloc = BlocProvider.of<CycleBloc>(context);
-    cycleBloc.add(GetCycles());
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 AppBarCustom(
                   title: 'TimLine',
                   icon: Icons.filter_list,
-                  pushNamed: '/addActivity',
+                  pushNamed: '/activities',
                 ),
                 PercentIndicator(
                   size: size,
