@@ -24,3 +24,5 @@ class DeleteCycle extends CycleEvents {
 
   DeleteCycle(this.id);
 }
+
+class UpdateTotalsCompleted extends CycleEvents{}

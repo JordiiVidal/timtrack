@@ -5,10 +5,8 @@ import 'package:timtrack/pages/activity/addactivity_page.dart';
 import 'package:timtrack/pages/home_page.dart';
 import 'package:timtrack/pages/loading_page.dart';
 import 'package:timtrack/pages/profile_page.dart';
-import 'package:timtrack/pages/signup_page.dart';
 
 final Map<String, Widget Function(BuildContext)> routes = {
-  '/': (_) => SignUpPage(),
   '/home': (_) => HomePage(),
   '/loading': (_) => LoadingPage(),
   '/activity': (_) => ActivityPage(),

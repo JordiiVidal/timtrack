@@ -3,27 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 import 'package:timtrack/widgets/cycle_listitle.dart';
 
-class CycleList extends StatefulWidget {
-  const CycleList({Key key}) : super(key: key);
-
-  @override
-  _CycleListState createState() => _CycleListState();
-}
-
-class _CycleListState extends State<CycleList> {
-  CycleBloc cycleBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    cycleBloc = BlocProvider.of<CycleBloc>(context);
-    cycleBloc.add(GetCycles());
-  }
-
+class CycleList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CycleBloc, CycleState>(
+      
       builder: (context, state) {
+        print('${state.list.length} - lista');
         if (state.list.isEmpty) {
           return Align(
             alignment: Alignment.topCenter,

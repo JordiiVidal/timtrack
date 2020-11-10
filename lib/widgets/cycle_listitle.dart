@@ -6,6 +6,7 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 import 'package:timtrack/models/cycle_model.dart';
 import 'package:timtrack/utils/helpers.dart';
+import 'package:timtrack/widgets/text_cycle.dart';
 import 'package:timtrack/widgets/time_line_paint.dart';
 
 class CycleListTile extends StatefulWidget {
@@ -57,7 +58,7 @@ class _CycleListTileState extends State<CycleListTile> {
       controller: _slidableController,
       key: UniqueKey(),
       actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.30,
+      actionExtentRatio: 0.23,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 20,
@@ -145,16 +146,11 @@ class _CycleListTileState extends State<CycleListTile> {
                         ),
                   Container(
                     padding: EdgeInsets.only(top: 3),
-                    child: Text(
-                      widget.cycle.activity.name,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'Helvetica',
-                        color: Colors.grey[400],
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: TextCycle(
+                      statusCycle: widget.cycle.status,
+                      fontWeight: FontWeight.bold,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -215,7 +211,12 @@ class _CycleListTileState extends State<CycleListTile> {
           icon: Icons.delete,
           color: Colors.transparent,
           closeOnTap: true,
-          onTap: () => {},
+          onTap: () {
+            _stopWatchTimer.dispose();
+            BlocProvider.of<CycleBloc>(context).add(
+              DeleteCycle(widget.cycle.id),
+            );
+          },
         ),
       ),
     ];
