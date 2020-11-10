@@ -37,6 +37,8 @@ dependencies:
   path_provider: ^1.6.22
   flutter_slidable: ^0.5.7
   stop_watch_timer: ^0.6.0+1
+  percent_indicator: ^2.1.8
+  equatable: ^1.2.3
 
 
   

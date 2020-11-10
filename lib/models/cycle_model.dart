@@ -6,9 +6,17 @@ Cycle cycleFromJson(String str) => Cycle.fromJson(json.decode(str));
 
 String cycleToJson(Cycle data) => json.encode(data.toJson());
 
+//
 enum StatusCycle { pending, ongoing, completed }
 
-class Cycle {
+class Cycle  {
+
+  int id;
+  Activity activity;
+  int dateStart;
+  int dateEnd;
+  int duration;
+  StatusCycle status; 
   Cycle({
     this.id,
     this.activity,
@@ -18,12 +26,7 @@ class Cycle {
     this.status,
   });
 
-  int id;
-  Activity activity;
-  int dateStart;
-  int dateEnd;
-  int duration;
-  StatusCycle status;
+  
 
   factory Cycle.fromJson(Map<String, dynamic> json) => Cycle(
         id: json["id"],

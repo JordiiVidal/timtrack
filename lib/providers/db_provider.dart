@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:timtrack/bloc/cycle/cycle_bloc.dart';
 import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/models/cycle_model.dart';
 
@@ -105,8 +104,7 @@ class DBProvider {
 
   Future<int> deleteCycle(int id) async {
     final db = await database;
-    final result =
-        await db.delete('Activity', where: 'id = ?', whereArgs: [id]);
+    final result = await db.delete('Cycle', where: 'id = ?', whereArgs: [id]);
     return result;
   }
 
@@ -115,5 +113,19 @@ class DBProvider {
     final result = await db.update('Cycle', cycleModel.toJson(),
         where: 'id = ?', whereArgs: [cycleModel.id]);
     return result;
+  }
+
+  Future<int> totalCycles() async {
+    final db = await database;
+    final result = await db.rawQuery('select count(*) from Cycle');
+    return Sqflite.firstIntValue(result);
+  }
+
+  Future<int> totalStatusCycles(int status) async {
+    final db = await database;
+    final result =
+        await db.rawQuery('select count(*) from Cycle where status = $status');
+    print(result);
+    return Sqflite.firstIntValue(result);
   }
 }
