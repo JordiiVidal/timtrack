@@ -37,6 +37,8 @@ dependencies:
   percent_indicator: ^2.1.8
   equatable: ^1.2.3
   uuid: ^2.2.2
+  modal_bottom_sheet: ^1.0.0+1
+  chips_choice: ^2.0.1
 
 
   

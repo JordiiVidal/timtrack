@@ -27,7 +27,7 @@ class AddActivityPage extends StatelessWidget {
           ),
           Container(
             child: RaisedButton(
-              child: Text('+ Add'),
+              child: Text('Create'),
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 BlocProvider.of<ActivitiesBloc>(context).add(
@@ -38,6 +38,7 @@ class AddActivityPage extends StatelessWidget {
                     ),
                   ),
                 );
+                Navigator.pop(context);
               },
             ),
           ),

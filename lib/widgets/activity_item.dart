@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timtrack/bloc/cycles/cycles_bloc.dart';
-import 'package:timtrack/bloc/cycles/cycles_event.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:timtrack/models/activity_model.dart';
-import 'package:timtrack/models/cycle_model.dart';
+import 'package:timtrack/widgets/modal_start_cycle.dart';
 
 class ActivityItem extends StatelessWidget {
   final Activity activity;
@@ -14,16 +12,20 @@ class ActivityItem extends StatelessWidget {
     return ListTile(
       title: Text(activity.name),
       leading: IconButton(
-        icon: Icon(Icons.filter_list),
+        padding: EdgeInsets.all(0),
+        icon: Icon(Icons.scatter_plot),
         onPressed: () => {
-          BlocProvider.of<CyclesBloc>(context).add(
-            CycleAdded(
-              Cycle(
-                activity: activity,
-                dateStart: new DateTime.now().millisecondsSinceEpoch,
-                dateEnd: null,
-                status: StatusCycle.ongoing,
-              ),
+          showBarModalBottomSheet(
+            expand: true,
+            duration: Duration(milliseconds: 600),
+            context: context,
+            backgroundColor: Colors.transparent,
+            enableDrag: true,
+            topControl: Container(
+              height: 150,
+            ),
+            builder: (context) => ModalStartCycle(
+              activity: activity,
             ),
           ),
         },
