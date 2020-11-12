@@ -19,9 +19,10 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
 
   Stream<ActivitiesState> _mapActivitiesLoadedToState() async* {
     try {
-      final List<Activity> acitivities =
-          await activityRepository.getActivities();
-      yield ActivitiesLoadSuccess(acitivities);
+      final List<Activity> activities =
+          await activityRepository.getActivities();///DB
+      print(activities);
+      yield ActivitiesLoadSuccess(activities);
     } catch (_) {
       yield ActivitiesLoadFailure();
     }
@@ -31,6 +32,7 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
       ActivityAdded event) async* {
     if (state is ActivitiesLoadSuccess) {
       final Activity activity = event.activity;
+      await activityRepository.createActivity(activity);///DB
       final List<Activity> list =
           List.from((state as ActivitiesLoadSuccess).activities)..add(activity);
       yield ActivitiesLoadSuccess(list);
