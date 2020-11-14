@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timtrack/models/cycle_model.dart';
+import 'package:intl/intl.dart';
 
 String timestampToTime(int timestamp, bool onlySeconds) {
   var dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
@@ -10,9 +11,27 @@ String timestampToTime(int timestamp, bool onlySeconds) {
   return (onlySeconds) ? '$seconds' : '$hour:$minute';
 }
 
+String durationToTime(int seconds) {
+  final hours = (seconds / 3600).round();
+  final minutes = (seconds / 60).round();
+  var hour = (hours < 10) ? '0$hours' : hours;
+  var minute = (minutes < 10) ? '0$minutes' : minutes;
+  return '$hour:$minute';
+}
+
+int durationCycle(int timestampStart) {
+  final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestampStart);
+  final DateTime now = DateTime.now();
+  return now.difference(dateTime).inSeconds;
+}
+
 int diffTime(int dateStart, int dateEnd) {
   final int nowTime = new DateTime.now().millisecondsSinceEpoch;
   return (dateEnd == null) ? nowTime - dateStart : dateEnd - dateStart;
+}
+
+String formatDateTime(DateTime dateTime) {
+  return DateFormat.Hm().format(dateTime);
 }
 
 Widget statusToString(StatusCycle status) {

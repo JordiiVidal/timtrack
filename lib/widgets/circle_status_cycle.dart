@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timtrack/bloc/cycles/cycles.dart';
 import 'package:timtrack/models/cycle_model.dart';
+import 'package:timtrack/utils/helpers.dart';
 
 class CycleStatus extends StatelessWidget {
   final Cycle cycle;
@@ -73,15 +74,15 @@ class CycleStatus extends StatelessWidget {
             padding: EdgeInsets.all(0),
             onPressed: () {
               Cycle element = cycle.copyWith(
-                duration: 21,
-                dateEnd: 32131,
+                duration: durationCycle(cycle.dateStart),
+                dateEnd: new DateTime.now().millisecondsSinceEpoch,
                 status: StatusCycle.completed,
               );
 
               BlocProvider.of<CyclesBloc>(context).add(CycleUpdated(element));
             },
             icon: Icon(
-              Icons.pause,
+              Icons.stop,
               size: 21,
               color: Color(0xffE93031),
             ),

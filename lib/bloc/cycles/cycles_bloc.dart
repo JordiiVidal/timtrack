@@ -23,7 +23,7 @@ class CyclesBloc extends Bloc<CyclesEvent, CyclesState> {
 
   Stream<CyclesState> _mapCyclesLoadedToState() async* {
     try {
-      final List<Cycle> cycles = await cycleRepository.getCycles();
+      final List<Cycle> cycles = await cycleRepository.getCycles();///DB
       yield CyclesLoadSuccess(cycles);
     } catch (_) {
       yield CyclesLoadFailure();
@@ -32,7 +32,7 @@ class CyclesBloc extends Bloc<CyclesEvent, CyclesState> {
 
   Stream<CyclesState> _mapCycleAddedToState(CycleAdded event) async* {
     if (state is CyclesLoadSuccess) {
-      await cycleRepository.createCycle(event.cycle);
+      await cycleRepository.createCycle(event.cycle);///DB
       final List<Cycle> updatedTodos =
           List.from((state as CyclesLoadSuccess).cycles)..add(event.cycle);
       yield CyclesLoadSuccess(updatedTodos);
@@ -41,8 +41,7 @@ class CyclesBloc extends Bloc<CyclesEvent, CyclesState> {
 
   Stream<CyclesState> _mapCycleDeletedToState(CycleDeleted event) async* {
     if (state is CyclesLoadSuccess) {
-      print(event.cycle.id);
-      int res = await cycleRepository.deleteCycle(event.cycle.id);
+      int res = await cycleRepository.deleteCycle(event.cycle.id);///DB
       print(res);
       final List<Cycle> updatedTodos = (state as CyclesLoadSuccess)
           .cycles
@@ -54,7 +53,7 @@ class CyclesBloc extends Bloc<CyclesEvent, CyclesState> {
 
   Stream<CyclesState> _mapCycleUpdatedToState(CycleUpdated event) async* {
     if (state is CyclesLoadSuccess) {
-      await cycleRepository.updateCycle(event.cycle);
+      await cycleRepository.updateCycle(event.cycle);///DB
       final List<Cycle> updatedTodos =
           (state as CyclesLoadSuccess).cycles.map((element) {
         return element.id == event.cycle.id ? event.cycle : element;

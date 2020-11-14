@@ -1,26 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
-import 'package:timtrack/bloc/cycles/cycles_bloc.dart';
-import 'package:timtrack/bloc/cycles/cycles_event.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:timtrack/bloc/cycles/cycles.dart';
+
 import 'package:timtrack/models/cycle_model.dart';
 import 'package:timtrack/utils/helpers.dart';
 import 'package:timtrack/widgets/circle_status_cycle.dart';
 import 'package:timtrack/widgets/text_cycle.dart';
 import 'package:timtrack/widgets/time_line_paint.dart';
 
-class CycleItem extends StatelessWidget {
+class CycleItem extends StatefulWidget {
   final Cycle cycle;
   final bool isLast;
   const CycleItem({Key key, this.cycle, this.isLast}) : super(key: key);
 
   @override
+  _CycleItemState createState() => _CycleItemState();
+}
+
+class _CycleItemState extends State<CycleItem> {
+  int _timestampDuration; //seconds
+  DateTime _start;
+
+  void _initTimer() {
+    final DateTime _now = new DateTime.now();
+    final int timestampStart = widget.cycle.dateStart;
+    _start = DateTime.fromMillisecondsSinceEpoch(timestampStart);
+    _timestampDuration = _now.difference(_start).inMilliseconds;
+  }
+
+  void _updateDuration() {
+    final DateTime _now = new DateTime.now();
+    if (this.mounted) {
+      setState(() {
+        _timestampDuration = _now.difference(_start).inSeconds;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _initTimer();
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _updateDuration());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: ValueKey(cycle.id),
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 20,
+          vertical: 12,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,16 +67,14 @@ class CycleItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CycleStatus(
-                    cycle: cycle,
+                    cycle: widget.cycle,
                   ),
-                  isLast
-                      ? Container()
-                      : Container(
-                          height: 43,
-                          child: CustomPaint(
-                            painter: TimeLinePaint(),
-                          ),
-                        ),
+                  Container(
+                    height: 40,
+                    child: CustomPaint(
+                      painter: TimeLinePaint(),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -52,7 +85,7 @@ class CycleItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cycle.activity.name,
+                      widget.cycle.activity.name,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -62,7 +95,7 @@ class CycleItem extends StatelessWidget {
                       height: 6.0,
                     ),
                     Text(
-                      ' ${timestampToTime(cycle.dateStart, false)} - ${cycle.dateEnd != null ? timestampToTime(cycle.dateEnd, false) : ' ...'}',
+                      ' ${timestampToTime(widget.cycle.dateStart, false)} - ${widget.cycle.dateEnd != null ? timestampToTime(widget.cycle.dateEnd, false) : ' ...'}',
                       style: TextStyle(
                         letterSpacing: -0.8,
                         fontSize: 13,
@@ -78,37 +111,15 @@ class CycleItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  (cycle.status == StatusCycle.ongoing)
-                      ? statusOnGoing()
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              timestampToTime(
-                                cycle.duration,
-                                false,
-                              ),
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Helvetica',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              timestampToTime(cycle.dateEnd, true),
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontFamily: 'Helvetica',
-                                color: Colors.grey[400],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                  durationTimer(
+                    widget.cycle.status == StatusCycle.ongoing
+                        ? _timestampDuration
+                        : widget.cycle.duration,
+                  ),
                   Container(
                     padding: EdgeInsets.only(top: 3),
                     child: TextCycle(
-                      statusCycle: cycle.status,
+                      statusCycle: widget.cycle.status,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -118,51 +129,41 @@ class CycleItem extends StatelessWidget {
           ],
         ),
       ),
-      background: Container(
-        decoration: BoxDecoration(
-          color: Color(0xfff96b6b),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              blurRadius: 8,
-              offset: Offset(-1, 2),
-              color: Color(0XFFa2aecf),
-            )
-          ],
+      secondaryActions: [
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 8,
+                offset: Offset(-1, 2),
+                color: Color(0XFFa2aecf),
+              )
+            ],
+          ),
+          child: IconSlideAction(
+            caption: 'Delete',
+            color: Color(0xfff96b6b),
+            icon: Icons.delete,
+            onTap: () {
+              BlocProvider.of<CyclesBloc>(context).add(
+                CycleDeleted(widget.cycle),
+              );
+            },
+          ),
         ),
-        child: Icon(
-          Icons.delete,
-          color: Colors.white,
-        ),
-      ),
-      onDismissed: (direction) {
-        BlocProvider.of<CyclesBloc>(context).add(CycleDeleted(cycle));
-      },
+      ],
     );
   }
 
-  Widget statusOnGoing() {
+  Widget durationTimer(int duration) {
     return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          Text(
-            '09',
-            style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'Helvetica',
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            '87',
-            style: TextStyle(
-              fontSize: 10,
-              fontFamily: 'Helvetica',
-              color: Colors.grey[400],
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+      child: Text(
+        durationToTime(duration),
+        style: TextStyle(
+          fontSize: 20,
+          fontFamily: 'Helvetica',
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
