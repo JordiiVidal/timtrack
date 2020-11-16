@@ -2,7 +2,6 @@ import 'package:timtrack/providers/db_provider.dart';
 import 'package:timtrack/models/activity_model.dart';
 
 class ActivityDao {
-
   final DBProvider dbProvider = DBProvider.db;
 
   Future<int> createActivity(Activity activityModel) async {
@@ -40,5 +39,4 @@ class ActivityDao {
         where: 'id = ?', whereArgs: [activityModel.id]);
     return result;
   }
-
 }

@@ -31,66 +31,9 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE Activity(id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(300), deleted INT)');
+          'CREATE TABLE Activity(id VARCHAR(300) PRIMARY KEY,name VARCHAR(300), deleted INT)');
       await db.execute(
           'CREATE TABLE Cycle(id VARCHAR(300) PRIMARY KEY,id_activity INT,date_start INT(100),date_end INT(100) NULL, status INT, duration INT(100) NULL)');
     });
-  }
-
-////ACTIVITY
-
-  
-  ///CYCLE
-
-  Future<int> createCycle(Activity activity) async {
-    final db = await database;
-    final result = await db.insert(
-      'Cycle',
-      Cycle(
-        activity: activity,
-        dateStart: new DateTime.now().millisecondsSinceEpoch,
-        dateEnd: null,
-        status: StatusCycle.ongoing,
-      ).toJson(),
-    );
-    return result;
-  }
-
-  Future<List<Cycle>> getCycles() async {
-    final db = await database;
-    final result = await db.rawQuery(
-        'select Activity.id as id_activity, Activity.name, Cycle.* from Cycle left join Activity where Activity.id = Cycle.id_activity order by Cycle.date_start DESC');
-    List<Cycle> list = result.isNotEmpty
-        ? result.map((scan) => Cycle.fromJsonJoin(scan)).toList()
-        : [];
-
-    return list;
-  }
-
-  Future<int> deleteCycle(int id) async {
-    final db = await database;
-    final result = await db.delete('Cycle', where: 'id = ?', whereArgs: [id]);
-    return result;
-  }
-
-  Future<int> updateCycle(Cycle cycleModel) async {
-    final db = await database;
-    final result = await db.update('Cycle', cycleModel.toJson(),
-        where: 'id = ?', whereArgs: [cycleModel.id]);
-    return result;
-  }
-
-  Future<int> totalCycles() async {
-    final db = await database;
-    final result = await db.rawQuery('select count(*) from Cycle');
-    return Sqflite.firstIntValue(result);
-  }
-
-  Future<int> totalStatusCycles(int status) async {
-    final db = await database;
-    final result =
-        await db.rawQuery('select count(*) from Cycle where status = $status');
-    print(result);
-    return Sqflite.firstIntValue(result);
   }
 }

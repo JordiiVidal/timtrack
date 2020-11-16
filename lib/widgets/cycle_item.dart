@@ -21,14 +21,14 @@ class CycleItem extends StatefulWidget {
 }
 
 class _CycleItemState extends State<CycleItem> {
-  int _timestampDuration; //seconds
+  int _timestampDuration = 0; //seconds
   DateTime _start;
 
   void _initTimer() {
     final DateTime _now = new DateTime.now();
     final int timestampStart = widget.cycle.dateStart;
     _start = DateTime.fromMillisecondsSinceEpoch(timestampStart);
-    _timestampDuration = _now.difference(_start).inMilliseconds;
+    _timestampDuration = _now.difference(_start).inSeconds;
   }
 
   void _updateDuration() {
@@ -55,7 +55,7 @@ class _CycleItemState extends State<CycleItem> {
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 12,
+          vertical: 0,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

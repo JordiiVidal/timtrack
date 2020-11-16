@@ -18,7 +18,7 @@ class CycleDao {
   Future<List<Cycle>> getCycles() async {
     final db = await dbProvider.database;
     final result = await db.rawQuery(
-        'select Activity.id as id_activity, Activity.name, Cycle.* from Cycle left join Activity where Activity.id = Cycle.id_activity order by Cycle.date_start DESC');
+        'SELECT Activity.id as id_activity, Activity.name, Cycle.* FROM Cycle LEFT JOIN Activity WHERE Activity.id = Cycle.id_activity ORDER BY Cycle.date_start DESC');
     List<Cycle> list = result.isNotEmpty
         ? result.map((scan) => Cycle.fromJsonJoin(scan)).toList()
         : [];

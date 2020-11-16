@@ -1,17 +1,16 @@
 import 'dart:convert';
+import 'package:uuid/uuid.dart';
 
 Activity activityFromJson(String str) => Activity.fromJson(json.decode(str));
 
 String activityToJson(Activity data) => json.encode(data.toJson());
 
-class Activity {
-  Activity({
-    this.id,
-    this.name,
-    this.deleted,
-  });
+var uuid = Uuid();
 
-  int id;
+class Activity {
+  Activity({this.name, this.deleted, String id}) : this.id = id ?? uuid.v4();
+
+  String id;
   String name;
   bool deleted;
 

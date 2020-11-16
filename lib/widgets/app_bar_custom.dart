@@ -12,27 +12,45 @@ class AppBarCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: 12.0,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          (pop)
-              ? IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.pop(context))
-              : SizedBox(),
-          Text(
-            this.title,
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                (pop)
+                    ? IconButton(
+                        padding: EdgeInsets.all(0),
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      )
+                    : SizedBox(),
+                Text(
+                  this.title,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
-          IconShadow(
-            icon: this.icon,
-            pushNamed: this.pushNamed,
-          )
+          (this.icon == null)
+              ? SizedBox()
+              : IconShadow(
+                  icon: this.icon,
+                  pushNamed: this.pushNamed,
+                )
         ],
       ),
     );

@@ -1,16 +1,16 @@
-import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timtrack/bloc/cycles/cycles.dart';
 import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/models/cycle_model.dart';
+import 'package:timtrack/utils/helpers.dart';
 import 'package:timtrack/widgets/chips_state_cycle.dart';
 
 class ModalStartCycle extends StatelessWidget {
   final Activity activity;
 
-  const ModalStartCycle({Key key, this.activity}) : super(key: key);
+  const ModalStartCycle({Key key, @required this.activity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +25,7 @@ class ModalStartCycle extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    height: 6,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
+                  modalBar(),
                   Container(
                     padding: EdgeInsets.all(12),
                     child: Text(

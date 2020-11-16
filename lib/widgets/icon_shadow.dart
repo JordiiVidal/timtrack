@@ -7,22 +7,26 @@ class IconShadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            blurRadius: 8,
-            offset: Offset(-1, 2),
-            color: Color(0XFFa2aecf),
-          )
-        ],
-      ),
-      child: IconButton(
-        padding: const EdgeInsets.all(0),
-        icon: Icon(this.icon),
-        onPressed: () => Navigator.pushNamed(context, this.pushNamed),
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, this.pushNamed),
+      child: Container(
+        width: 38,
+        height: 38,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(21),
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              blurRadius: 8,
+              offset: Offset(-1, 2),
+              color: Color(0XFFa2aecf),
+            )
+          ],
+        ),
+        child: Icon(
+          this.icon,
+          size: 20,
+        ),
       ),
     );
   }

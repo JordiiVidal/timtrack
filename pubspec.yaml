@@ -38,6 +38,8 @@ dependencies:
   uuid: ^2.2.2
   modal_bottom_sheet: ^1.0.0+1
   chips_choice: ^2.0.1
+  curved_navigation_bar: ^0.3.4
+
 
 
   

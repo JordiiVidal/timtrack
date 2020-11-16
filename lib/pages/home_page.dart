@@ -1,7 +1,8 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:timtrack/utils/helpers.dart';
 import 'package:timtrack/widgets/app_bar_custom.dart';
 import 'package:timtrack/widgets/cycle_list.dart';
-import 'package:timtrack/widgets/percent_indicator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,37 +10,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _page = 0;
+  GlobalKey _bottomNavigationKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final gradient = Container(
-      height: size.height,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          stops: [0.2, 0.5],
-          colors: <Color>[
-            Color(0xffffff),
-            Color(0xfff5f5f5),
-          ],
-        ),
-      ),
-    );
-
     return Scaffold(
       key: UniqueKey(),
       body: Stack(
         children: [
-          gradient,
+          gradientBackground(size),
           SafeArea(
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -50,9 +36,6 @@ class _HomePageState extends State<HomePage> {
                   title: 'TimLine',
                   icon: Icons.filter_list,
                   pushNamed: '/activities',
-                ),
-                PercentIndicator(
-                  size: size,
                 ),
                 Expanded(
                   child: Container(
@@ -65,6 +48,28 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      bottomNavigationBar: CurvedNavigationBar(
+        key: _bottomNavigationKey,
+        index: 0,
+        height: 50.0,
+        items: <Widget>[
+          Icon(Icons.add, size: 30, color: Colors.white),
+          Icon(Icons.list, size: 30, color: Colors.white),
+          Icon(Icons.compare_arrows, size: 30, color: Colors.white),
+        ],
+        color: Colors.black87,
+        buttonBackgroundColor:Colors.black87,
+        backgroundColor: Color(0xffffff),
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 600),
+        onTap: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
+      ),
     );
   }
 }
+
+enum _SelectedTab { home, likes, search, profile }
