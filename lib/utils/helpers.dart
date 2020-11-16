@@ -12,11 +12,16 @@ String timestampToTime(int timestamp, bool onlySeconds) {
 }
 
 String durationToTime(int seconds) {
-  final hours = (seconds / 3600).round();
-  final minutes = (seconds / 60).round();
+  final hours = ((seconds / 3600).round()) % 60;
+  final minutes = ((seconds / 60).round()) % 60;
   var hour = (hours < 10) ? '0$hours' : hours;
   var minute = (minutes < 10) ? '0$minutes' : minutes;
   return '$hour:$minute';
+}
+
+String durationToSeconds(int seconds) {
+  final second = seconds.round() % 60;
+  return (second < 10) ? '0$second' : second.toString();
 }
 
 int durationCycle(int timestampStart) {

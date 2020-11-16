@@ -157,13 +157,27 @@ class _CycleItemState extends State<CycleItem> {
 
   Widget durationTimer(int duration) {
     return Container(
-      child: Text(
-        durationToTime(duration),
-        style: TextStyle(
-          fontSize: 20,
-          fontFamily: 'Helvetica',
-          fontWeight: FontWeight.bold,
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            durationToTime(duration),
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'Helvetica',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+           Text(
+            durationToSeconds(duration),
+            style: TextStyle(
+              fontSize: 10,
+              fontFamily: 'Helvetica',
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
