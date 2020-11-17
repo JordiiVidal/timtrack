@@ -44,7 +44,7 @@ class CyclesBloc extends Bloc<CyclesEvent, CyclesState> {
 
   Stream<CyclesState> _mapCycleDeletedToState(CycleDeleted event) async* {
     if (state is CyclesLoadSuccess) {
-      int res = await cycleRepository.deleteCycle(event.cycle.id);
+     await cycleRepository.deleteCycle(event.cycle.id);
 
       ///DB
       // print(res);
@@ -59,7 +59,7 @@ class CyclesBloc extends Bloc<CyclesEvent, CyclesState> {
 
   Stream<CyclesState> _mapCycleUpdatedToState(CycleUpdated event) async* {
     if (state is CyclesLoadSuccess) {
-      int res = await cycleRepository.updateCycle(event.cycle);
+      await cycleRepository.updateCycle(event.cycle);
       // DB
       // final List<Cycle> updatedTodos =
       //     (state as CyclesLoadSuccess).cycles.map((element) {

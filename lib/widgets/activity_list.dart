@@ -32,6 +32,10 @@ class ActivityList extends StatelessWidget {
                 activity: list[i],
               ),
             );
+          } else {
+            return Container(
+              child: Text('Error'),
+            );
           }
         },
       ),

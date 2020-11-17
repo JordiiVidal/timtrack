@@ -1,22 +1,22 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:timtrack/utils/helpers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
+import 'package:timtrack/bloc/navigation/navigation.dart';
+import 'package:timtrack/bloc/navigation/navigation_bloc.dart';
+
+import 'package:timtrack/widgets/activity_list.dart';
 import 'package:timtrack/widgets/app_bar_custom.dart';
+import 'package:timtrack/widgets/create_activity.dart';
 import 'package:timtrack/widgets/cycle_list.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+import 'package:timtrack/utils/helpers.dart';
 
-class _HomePageState extends State<HomePage> {
-  int _page = 0;
-  GlobalKey _bottomNavigationKey = GlobalKey();
+class HomePage extends StatelessWidget {
+  final GlobalKey _bottomNavigationKey = GlobalKey();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  final List<Widget> _tabs = [CreateActivity(), CycleList(), ActivityList()];
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +33,22 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppBarCustom(
-                  title: 'TimLine',
-                  icon: Icons.filter_list,
-                  pushNamed: '/activities',
+                  title: 'TimTrack',
                 ),
                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: CycleList(),
+                  child: BlocBuilder<NavigationBloc, NavigationState>(
+                    builder: (context, state) {
+                      if (state is NavigationLoadSuccess) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: _tabs[state.index],
+                        );
+                      } else {
+                        return Container(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
@@ -48,28 +56,29 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: 0,
-        height: 50.0,
-        items: <Widget>[
-          Icon(Icons.add, size: 30, color: Colors.white),
-          Icon(Icons.list, size: 30, color: Colors.white),
-          Icon(Icons.compare_arrows, size: 30, color: Colors.white),
-        ],
-        color: Colors.black87,
-        buttonBackgroundColor:Colors.black87,
-        backgroundColor: Color(0xffffff),
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 600),
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
+      bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
+        builder: (context, state) {
+          return CurvedNavigationBar(
+            key: _bottomNavigationKey,
+            index: 1,
+            height: 50.0,
+            items: <Widget>[
+              Icon(Icons.add, size: 30, color: Colors.white),
+              Icon(Icons.home, size: 30, color: Colors.white),
+              Icon(Icons.compare_arrows, size: 30, color: Colors.white),
+            ],
+            color: Colors.black87,
+            buttonBackgroundColor: Colors.black87,
+            backgroundColor: Color(0xffffff),
+            animationCurve: Curves.easeInOut,
+            animationDuration: Duration(milliseconds: 600),
+            onTap: (index) => BlocProvider.of<NavigationBloc>(context)
+                .add(NavigationUpdated(index)),
+          );
         },
       ),
     );
   }
 }
 
-enum _SelectedTab { home, likes, search, profile }
+///enum _SelectedTab { home, likes, search, profile }

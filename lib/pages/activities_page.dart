@@ -15,9 +15,6 @@ class ActivitiesPage extends StatelessWidget {
         child: Column(
           children: [
             AppBarCustom(
-              icon: null,
-              pop: true,
-              pushNamed: '',
               title: 'List Activities',
             ),
             SizedBox(

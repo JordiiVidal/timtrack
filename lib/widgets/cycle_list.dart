@@ -32,6 +32,10 @@ class CycleList extends StatelessWidget {
               isLast: i == cycles.length - 1 ? true : false,
             ),
           );
+        } else {
+          return Container(
+            child: Text('Error'),
+          );
         }
       },
     );
