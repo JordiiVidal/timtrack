@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 class IconShadow extends StatelessWidget {
   final IconData icon;
   final String pushNamed;
-  const IconShadow({Key key, this.icon, this.pushNamed}) : super(key: key);
+  final bool pop;
+  const IconShadow({this.icon, this.pushNamed, bool pop})
+      : this.pop = pop ?? false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, this.pushNamed),
+      onTap: () => (pop)
+          ? Navigator.pop(context)
+          : Navigator.pushNamed(context, this.pushNamed),
       child: Container(
         width: 38,
         height: 38,

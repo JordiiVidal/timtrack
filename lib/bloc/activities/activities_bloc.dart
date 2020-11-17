@@ -14,6 +14,8 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
       yield* _mapActivitiesLoadedToState();
     } else if (event is ActivityAdded) {
       yield* _mapActivitiesAddedToState(event);
+    } else if (event is ActivityDeleted) {
+      yield* _mapActivitiesDeletedToState(event);
     }
   }
 
@@ -36,11 +38,19 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
       final Activity activity = event.activity;
       await activityRepository.createActivity(activity);
 
-
       ///DB
       print(activity.id);
       final List<Activity> list =
           List.from((state as ActivitiesLoadSuccess).activities)..add(activity);
+      yield ActivitiesLoadSuccess(list);
+    }
+  }
+
+  Stream<ActivitiesState> _mapActivitiesDeletedToState(
+      ActivityDeleted event) async* {
+    if (state is ActivitiesLoadSuccess) {
+      await activityRepository.deleteActivity(event.activity.id);
+      final List<Activity> list = await activityRepository.getActivities();
       yield ActivitiesLoadSuccess(list);
     }
   }

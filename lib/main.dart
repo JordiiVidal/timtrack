@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:timtrack/bloc/activities/activities.dart';
@@ -36,46 +35,7 @@ void main() {
   );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
-  initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    changeColor(Colors.transparent, Colors.black87);
-  }
-
-  @override
-  dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-      FlutterStatusbarcolor.setNavigationBarWhiteForeground(true);
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  changeColor(Color statusColor, Color navigationColor) async {
-    try {
-      await FlutterStatusbarcolor.setStatusBarColor(statusColor, animate: true);
-      await FlutterStatusbarcolor.setNavigationBarColor(navigationColor,
-          animate: true);
-      FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-      FlutterStatusbarcolor.setNavigationBarWhiteForeground(true);
-    } on PlatformException catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

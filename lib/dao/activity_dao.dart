@@ -26,7 +26,7 @@ class ActivityDao {
     return result.isNotEmpty ? Activity.fromJson(result.first) : null;
   }
 
-  Future<int> deleteActivity(int id) async {
+  Future<int> deleteActivity(String id) async {
     final db = await dbProvider.database;
     final result =
         await db.delete('Activity', where: 'id = ?', whereArgs: [id]);

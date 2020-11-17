@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:timtrack/models/cycle_model.dart';
 import 'package:intl/intl.dart';
 
@@ -11,6 +13,17 @@ String timestampToTime(int timestamp, bool onlySeconds) {
   return (onlySeconds) ? '$seconds' : '$hour:$minute';
 }
 
+ changeColor(Color statusColor, Color navigationColor) async {
+    try {
+      await FlutterStatusbarcolor.setStatusBarColor(statusColor, animate: true);
+      await FlutterStatusbarcolor.setNavigationBarColor(navigationColor,
+          animate: true);
+      FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+      FlutterStatusbarcolor.setNavigationBarWhiteForeground(true);
+    } on PlatformException catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 String durationToTime(int seconds) {
   final hours = ((seconds / 3600).round()) % 60;
   final minutes = ((seconds / 60).round()) % 60;

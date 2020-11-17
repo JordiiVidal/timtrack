@@ -18,9 +18,9 @@ class ActivityAdded extends ActivitiesEvent {
   List<Object> get props => [activity];
 }
 
-class ActivitiesDeleted extends ActivitiesEvent {
+class ActivityDeleted extends ActivitiesEvent {
   final Activity activity;
-  ActivitiesDeleted(this.activity);
+  ActivityDeleted(this.activity);
   @override
   List<Object> get props => [activity];
 }

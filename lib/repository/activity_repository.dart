@@ -10,7 +10,7 @@ class ActivityRepository {
   Future createActivity(Activity activity) =>
       activityDao.createActivity(activity);
 
-  Future deleteActivity(int id) => activityDao.deleteActivity(id);
+  Future deleteActivity(String id) => activityDao.deleteActivity(id);
 
   Future updateActivity(Activity activity) =>
       activityDao.updateActivity(activity);
