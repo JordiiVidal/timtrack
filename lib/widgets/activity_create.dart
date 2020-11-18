@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:timtrack/bloc/activities/activities.dart';
 import 'package:timtrack/bloc/navigation/navigation.dart';
 import 'package:timtrack/models/activity_model.dart';
-import 'package:timtrack/widgets/modal_pick_color.dart';
 
-class ActivityCreate extends StatelessWidget {
+class ActivityCreate extends StatefulWidget {
+  @override
+  _ActivityCreateState createState() => _ActivityCreateState();
+}
+
+class _ActivityCreateState extends State<ActivityCreate> {
   final GlobalKey _globalKey = new GlobalKey();
   final TextEditingController _textEditingController = TextEditingController();
+  Color currentColor = Colors.black;
+
+  void changeColor(Color color) => setState(() => currentColor = color);
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +46,36 @@ class ActivityCreate extends StatelessWidget {
                       padding: EdgeInsets.only(top: 10),
                       child: GestureDetector(
                         onTap: () {
-                          showBarModalBottomSheet(
-                            expand: true,
-                            duration: Duration(milliseconds: 600),
+                          showDialog(
                             context: context,
-                            backgroundColor: Colors.transparent,
-                            enableDrag: false,
-                            topControl: Container(
-                              height: 150,
-                            ),
-                            builder: (context) => ModalPickColor(),
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                titlePadding: const EdgeInsets.all(0.0),
+                                contentPadding: const EdgeInsets.all(0.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                content: SingleChildScrollView(
+                                  child: SlidePicker(
+                                    pickerColor: currentColor,
+                                    onColorChanged: changeColor,
+                                    paletteType: PaletteType.rgb,
+                                    enableAlpha: false,
+                                    displayThumbColor: true,
+                                    showLabel: false,
+                                    showIndicator: true,
+                                    indicatorBorderRadius:
+                                        const BorderRadius.vertical(
+                                      top: const Radius.circular(25.0),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },
                         child: CircleAvatar(
-                          backgroundColor: Color(0xff303030),
+                          backgroundColor: currentColor,
                         ),
                       ),
                     ),
@@ -85,19 +109,19 @@ class ActivityCreate extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 35,
-          ),
-          Container(
-            child: Text(
-              'Tags',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.grey[600],
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   height: 35,
+          // ),
+          // Container(
+          //   child: Text(
+          //     'Tags',
+          //     style: TextStyle(
+          //       fontWeight: FontWeight.bold,
+          //       fontSize: 18,
+          //       color: Colors.grey[600],
+          //     ),
+          //   ),
+          // ),
           SizedBox(height: 20),
           Align(
             alignment: Alignment.bottomRight,
@@ -110,12 +134,15 @@ class ActivityCreate extends StatelessWidget {
                   ActivityAdded(
                     Activity(
                       name: _textEditingController.text,
+                      totalCycles: 0,
+                      color: currentColor,
                       deleted: false,
                     ),
                   ),
                 );
-                BlocProvider.of<NavigationBloc>(context)
-                    .add(NavigationUpdated(2));
+                BlocProvider.of<NavigationBloc>(context).add(
+                  NavigationUpdated(0),
+                );
               },
             ),
           ),

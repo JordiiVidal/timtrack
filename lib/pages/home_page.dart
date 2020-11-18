@@ -13,24 +13,13 @@ import 'package:timtrack/widgets/cycle_list.dart';
 
 import 'package:timtrack/utils/helpers.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    changeColor(Colors.transparent, Colors.black87);
-  }
-
+class HomePage extends StatelessWidget {
   final GlobalKey _bottomNavigationKey = new GlobalKey();
 
   final GlobalKey<ScaffoldState> _homePageScaffoldKey =
       new GlobalKey<ScaffoldState>();
 
-  final List<Widget> _tabs = [ActivityCreate(), CycleList(), ActivityList()];
+  final List<Widget> _tabs = [ActivityList(), CycleList(), ActivityCreate()];
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +65,9 @@ class _HomePageState extends State<HomePage> {
             index: (state is NavigationLoadSuccess) ? state.index : 1,
             height: 50.0,
             items: <Widget>[
-              Icon(Icons.add, size: 30, color: Colors.white),
+              Icon(Icons.list, size: 30, color: Colors.white),
               Icon(Icons.home, size: 30, color: Colors.white),
-              Icon(Icons.compare_arrows, size: 30, color: Colors.white),
+              Icon(Icons.add, size: 30, color: Colors.white),
             ],
             color: Colors.black87,
             buttonBackgroundColor: Colors.black87,

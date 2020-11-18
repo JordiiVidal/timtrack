@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import 'package:timtrack/bloc/activities/activities.dart';
-import 'package:timtrack/bloc/cycles/cycles.dart';
 import 'package:timtrack/models/activity_model.dart';
+import 'package:timtrack/pages/activity_edit_page.dart';
 import 'package:timtrack/widgets/modal_start_cycle.dart';
 
 class ActivityItem extends StatelessWidget {
@@ -38,8 +36,8 @@ class ActivityItem extends StatelessWidget {
         child: ListTile(
           title: Text(activity.name),
           leading: CircleAvatar(
-            backgroundColor: Color(activity.color),
-            child: Text('${activity.name[0]}'),
+            backgroundColor: activity.color,
+            child: Text('${activity.name[0].toUpperCase()}'),
           ),
         ),
       ),
@@ -59,7 +57,14 @@ class ActivityItem extends StatelessWidget {
             color: Color(0xff2dd2b4),
             icon: Icons.edit,
             foregroundColor: Colors.white,
-            onTap: () => Navigator.pushNamed(context, '/editActivity'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ActivityEditPage(
+                  activity: activity,
+                ),
+              ),
+            ),
           ),
         ),
       ],

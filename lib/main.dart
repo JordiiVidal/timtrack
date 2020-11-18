@@ -11,6 +11,7 @@ import 'package:timtrack/repository/activity_repository.dart';
 import 'package:timtrack/repository/cycle_repository.dart';
 
 import 'package:timtrack/routes/routes.dart';
+import 'package:timtrack/utils/helpers.dart';
 
 void main() {
   runApp(
@@ -35,7 +36,18 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    changeColor(Colors.transparent, Colors.black87);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,6 +77,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: routes,
       initialRoute: '/home',
+      
     );
   }
 }
