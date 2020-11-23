@@ -5,11 +5,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:timtrack/bloc/navigation/navigation.dart';
 import 'package:timtrack/bloc/navigation/navigation_bloc.dart';
+import 'package:timtrack/pages/tab_create_activity.dart';
+import 'package:timtrack/pages/tab_cycles.dart';
 
-import 'package:timtrack/widgets/activity_list.dart';
+import 'package:timtrack/widgets/list_activity.dart';
 import 'package:timtrack/widgets/app_bar_custom.dart';
-import 'package:timtrack/widgets/activity_create.dart';
-import 'package:timtrack/widgets/cycle_list.dart';
 
 import 'package:timtrack/utils/helpers.dart';
 
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _homePageScaffoldKey =
       new GlobalKey<ScaffoldState>();
 
-  final List<Widget> _tabs = [ActivityList(), CycleList(), ActivityCreate()];
+  final List<Widget> _tabs = [ListActivity(), TabCycles(), TabCreateActivity()];
 
   @override
   Widget build(BuildContext context) {

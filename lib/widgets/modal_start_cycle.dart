@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 import 'package:timtrack/bloc/cycles/cycles.dart';
+import 'package:timtrack/bloc/navigation/navigation.dart';
+import 'package:timtrack/bloc/navigation/navigation_bloc.dart';
 import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/models/cycle_model.dart';
 import 'package:timtrack/utils/helpers.dart';
-import 'package:timtrack/widgets/chips_state_cycle.dart';
 
 class ModalStartCycle extends StatelessWidget {
   final Activity activity;
@@ -14,6 +16,8 @@ class ModalStartCycle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
+
     return Container(
       child: Material(
         child: CupertinoPageScaffold(
@@ -36,7 +40,28 @@ class ModalStartCycle extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ChipsStateCycle(),
+                  Tags(
+                    key: _tagStateKey,
+                    spacing: 12,
+                    alignment: WrapAlignment.start,
+                    itemCount: activity.tags.length, // required
+                    itemBuilder: (int index) {
+                      final String tag = activity.tags[index];
+                      return ItemTags(
+                        key: Key('$index'),
+                        index: index, // required
+                        title: tag,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        textStyle: TextStyle(fontSize: 15),
+                        pressEnabled: true,
+                        combine: ItemTagsCombine.withTextBefore,
+                        removeButton: null,
+                        onPressed: (item) => print(item),
+                        // OR null,
+                      );
+                    },
+                  ),
                   Container(
                     child: FlatButton(
                       color: Colors.black54,
@@ -52,10 +77,12 @@ class ModalStartCycle extends StatelessWidget {
                             ),
                           ),
                         );
-                        Navigator.popUntil(context, (route) => route.isFirst);
+                        Navigator.pop(context);
+                        BlocProvider.of<NavigationBloc>(context)
+                            .add(NavigationUpdated(1));
                       },
                       child: Text(
-                        'Create',
+                        'START',
                         style: TextStyle(
                           color: Colors.white,
                         ),

@@ -1,3 +1,4 @@
+import 'package:calendar_strip/calendar_strip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timtrack/bloc/cycles/cycles_bloc.dart';
@@ -23,13 +24,15 @@ class CycleList extends StatelessWidget {
               asset: 'assets/empty_list.png',
               text: "You'r so lazy ...",
             );
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            itemCount: cycles.length,
-            itemBuilder: (_, i) => CycleItem(
-              cycle: cycles[i],
-              isLast: i == cycles.length - 1 ? true : false,
+          return Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: cycles.length,
+              itemBuilder: (_, i) => CycleItem(
+                cycle: cycles[i],
+                isLast: i == cycles.length - 1 ? true : false,
+              ),
             ),
           );
         } else {

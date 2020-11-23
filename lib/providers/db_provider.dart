@@ -29,7 +29,7 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute(
-          'CREATE TABLE Activity(id VARCHAR(300) PRIMARY KEY,name VARCHAR(300),color VARCHAR(100), deleted INT)');
+          'CREATE TABLE Activity(id VARCHAR(300) PRIMARY KEY,name VARCHAR(300),color VARCHAR(100), tags VARCHAR(600), deleted INT)');
       await db.execute(
           'CREATE TABLE Cycle(id VARCHAR(300) PRIMARY KEY,id_activity VARCHAR(300),date_start INT(100),date_end INT(100) NULL, status INT, duration INT(100) NULL)');
     });

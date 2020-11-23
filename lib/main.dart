@@ -13,6 +13,8 @@ import 'package:timtrack/repository/cycle_repository.dart';
 import 'package:timtrack/routes/routes.dart';
 import 'package:timtrack/utils/helpers.dart';
 
+import 'bloc/activity/activity.dart';
+
 void main() {
   runApp(
     MultiBlocProvider(
@@ -29,7 +31,10 @@ void main() {
         }),
         BlocProvider(create: (context) {
           return NavigationBloc()..add(NavigationLoaded());
-        })
+        }),
+        BlocProvider(create: (context) {
+          return ActivityBloc()..add(ActivityLoaded());
+        }),
       ],
       child: MyApp(),
     ),
@@ -77,7 +82,6 @@ class _MyAppState extends State<MyApp> {
       ),
       routes: routes,
       initialRoute: '/home',
-      
     );
   }
 }

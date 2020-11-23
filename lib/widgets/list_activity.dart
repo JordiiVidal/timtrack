@@ -5,8 +5,7 @@ import 'package:timtrack/models/activity_model.dart';
 import 'package:timtrack/widgets/activity_item.dart';
 import 'package:timtrack/widgets/empty_list.dart';
 
-class ActivityList extends StatelessWidget {
-  const ActivityList({Key key}) : super(key: key);
+class ListActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
