@@ -34,6 +34,11 @@ class AppBarCustom extends StatelessWidget {
               ],
             ),
           ),
+          Align(
+            child: Container(
+              child: Text('November 2020'),
+            ),
+          ),
         ],
       ),
     );

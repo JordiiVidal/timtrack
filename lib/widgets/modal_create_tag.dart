@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timtrack/bloc/activity/activity.dart';
 import 'package:timtrack/utils/helpers.dart';
 
 class ModalCreateTag extends StatelessWidget {
@@ -34,8 +32,7 @@ class ModalCreateTag extends StatelessWidget {
                     child: FlatButton(
                       color: Colors.black54,
                       onPressed: () {
-                        BlocProvider.of<ActivityBloc>(context)
-                            .add(ActivityAddTag(_textEditingController.text));
+                        addTag(_textEditingController.text);
                         FocusScope.of(context).unfocus();
                         Navigator.pop(context);
                       },

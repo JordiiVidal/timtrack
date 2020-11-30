@@ -5,15 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:timtrack/bloc/activities/activities.dart';
 import 'package:timtrack/bloc/cycles/cycles.dart';
-import 'package:timtrack/bloc/navigation/navigation.dart';
 
 import 'package:timtrack/repository/activity_repository.dart';
 import 'package:timtrack/repository/cycle_repository.dart';
 
 import 'package:timtrack/routes/routes.dart';
 import 'package:timtrack/utils/helpers.dart';
-
-import 'bloc/activity/activity.dart';
 
 void main() {
   runApp(
@@ -28,12 +25,6 @@ void main() {
           return CyclesBloc(
             cycleRepository: CycleRepository(),
           )..add(CyclesLoaded());
-        }),
-        BlocProvider(create: (context) {
-          return NavigationBloc()..add(NavigationLoaded());
-        }),
-        BlocProvider(create: (context) {
-          return ActivityBloc()..add(ActivityLoaded());
         }),
       ],
       child: MyApp(),

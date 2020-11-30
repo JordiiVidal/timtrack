@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_strip/calendar_strip.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timtrack/bloc/cycles/cycles.dart';
-import 'package:timtrack/widgets/empty_list.dart';
-
 class Calendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime startDate = DateTime.now().subtract(Duration(days: 4));
     DateTime endDate = DateTime.now().add(Duration(days: 4));
-    DateTime selectedDate = DateTime.now().subtract(Duration(days: 0));
     List<DateTime> markedDates = [];
 
     onSelect(data) {
@@ -44,11 +39,10 @@ class Calendar extends StatelessWidget {
       TextStyle normalStyle = TextStyle(
           fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
       TextStyle selectedStyle = TextStyle(
-          fontSize: 17, fontWeight: FontWeight.w800, color: Colors.white);
-      TextStyle dayNameStyle = TextStyle(
-          fontSize: 14.5, color: isSelectedDate ? Colors.white : fontColor);
+          fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
+      TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
       TextStyle dayNameStyleSelected =
-          TextStyle(fontSize: 14.5, color: Colors.white);
+          TextStyle(fontSize: 14.5, color: fontColor);
       List<Widget> _children = [
         Text(dayName,
             style: !isSelectedDate ? dayNameStyle : dayNameStyleSelected),
@@ -65,18 +59,20 @@ class Calendar extends StatelessWidget {
         alignment: Alignment.center,
         padding: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
         decoration: BoxDecoration(
-          color: !isSelectedDate ? Colors.transparent : null,
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.centerRight,
-            stops: [0.2,0.8],
-            colors: [
-              Color(0xff2dd2cd),
-              Color(0xff2dd2aa),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(5),
-        ),
+            color: !isSelectedDate ? Colors.transparent : Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: isSelectedDate
+                ? Border.all(color: Colors.grey[400], width: 1)
+                : null,
+            boxShadow: isSelectedDate
+                ? [
+                    BoxShadow(
+                        blurRadius: 6,
+                        color: Colors.grey[300],
+                        offset: Offset(2, 2),
+                        spreadRadius: 1)
+                  ]
+                : []),
         child: Column(
           children: _children,
         ),
@@ -87,40 +83,18 @@ class Calendar extends StatelessWidget {
       return Container();
     }
 
-    return BlocBuilder<CyclesBloc, CyclesState>(
-      builder: (context, state) {
-        if (state is CylcesLoadInProgress) {
-          return Container(
-            child: CircularProgressIndicator(),
-            width: 40,
-            height: 40,
-          );
-        } else if (state is CyclesLoadSuccess) {
-          final cycles = state.cycles;
-          if (cycles.isEmpty)
-            return EmptyList(
-              asset: 'assets/empty_list.png',
-              text: "You'r so lazy ...",
-            );
-          return Container(
-            child: CalendarStrip(
-              addSwipeGesture: true,
-              startDate: startDate,
-              endDate: endDate,
-              onDateSelected: onSelect,
-              onWeekSelected: onWeekSelect,
-              dateTileBuilder: dateTileBuilder,
-              iconColor: Colors.black87,
-              monthNameWidget: _monthNameWidget,
-              markedDates: markedDates,
-            ),
-          );
-        } else {
-          return Container(
-            child: Text('Error'),
-          );
-        }
-      },
+    return Container(
+      child: CalendarStrip(
+        addSwipeGesture: true,
+        startDate: startDate,
+        endDate: endDate,
+        onDateSelected: onSelect,
+        onWeekSelected: onWeekSelect,
+        dateTileBuilder: dateTileBuilder,
+        iconColor: Colors.black87,
+        monthNameWidget: _monthNameWidget,
+        markedDates: markedDates,
+      ),
     );
   }
 }

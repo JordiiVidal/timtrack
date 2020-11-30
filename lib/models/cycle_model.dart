@@ -18,20 +18,24 @@ class Cycle extends Equatable {
   final int dateEnd;
   final int duration;
   final StatusCycle status;
+  final List<String> tags;
   Cycle(
       {this.activity,
       this.dateStart,
       this.dateEnd,
       this.duration,
       this.status,
-      String id})
-      : this.id = id ?? uuid.v4();
+      String id,
+      List<String> tags})
+      : this.id = id ?? uuid.v4(),
+        this.tags = tags ?? [];
 
   Cycle copyWith(
       {int dateStart,
       int dateEnd,
       int duration,
       StatusCycle status,
+      List<String> tags,
       Activity activity}) {
     return Cycle(
       activity: activity ?? this.activity,
@@ -40,6 +44,7 @@ class Cycle extends Equatable {
       dateEnd: dateEnd ?? this.dateEnd,
       duration: duration ?? this.duration,
       status: status ?? this.status,
+      tags: tags ?? this.tags,
     );
   }
 
@@ -50,6 +55,7 @@ class Cycle extends Equatable {
         dateEnd: json["date_end"],
         status: intToStatus(json["status"]),
         duration: json["duration"],
+        tags: jsonDecode(json["tags"]),
       );
 
   factory Cycle.fromJsonJoin(Map<String, dynamic> json) => Cycle(
@@ -63,6 +69,7 @@ class Cycle extends Equatable {
         dateEnd: json["date_end"],
         status: intToStatus(json["status"]),
         duration: json["duration"],
+        tags: jsonDecode(json["tags"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,11 +78,12 @@ class Cycle extends Equatable {
         "date_start": dateStart,
         "date_end": dateEnd,
         "duration": duration,
+        "tags": jsonEncode(tags),
         "status": statusToInt(status),
       };
 
   @override
-  List<Object> get props => [id, activity, dateStart, dateEnd, duration];
+  List<Object> get props => [id, activity, dateStart, dateEnd, duration, tags];
 
   @override
   String toString() {

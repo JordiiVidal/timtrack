@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:timtrack/models/activity_model.dart';
-import 'package:timtrack/utils/helpers.dart';
 import 'package:timtrack/widgets/cycle_list.dart';
 
 import 'package:timtrack/widgets/icon_shadow.dart';
@@ -11,51 +10,26 @@ class ActivityEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
-      body: Stack(
-        children: [
-          gradientBackground(size),
-          SafeArea(
-            child: Container(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ActivityHeader(
-                    activity: activity,
-                  ),
-                  ActivityInfo(),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Cycles (10)',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.grey[600],
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: CycleList(),
-                  ),
-                ],
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ActivityHeader(
+                activity: activity,
               ),
-            ),
+              ActivityInfo(),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
 class ActivityBody extends StatelessWidget {
-  const ActivityBody({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -70,10 +44,6 @@ class ActivityBody extends StatelessWidget {
 }
 
 class ActivityInfo extends StatelessWidget {
-  const ActivityInfo({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(

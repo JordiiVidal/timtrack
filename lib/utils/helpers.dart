@@ -56,32 +56,16 @@ String formatDateTime(DateTime dateTime) {
 Widget modalBar() {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 10),
-    height: 6,
-    width: 40,
+    height: 5,
+    width: 48,
     decoration: BoxDecoration(
-      color: Colors.black54,
+      color: Colors.black45,
       borderRadius: BorderRadius.circular(6),
     ),
   );
 }
 
-Widget gradientBackground(Size size) {
-  return Container(
-    height: size.height,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.bottomLeft,
-        end: Alignment.topRight,
-        stops: [0.2, 0.5],
-        colors: <Color>[
-          Color(0xffffff),
-          Color(0xfff5f5f5),
-        ],
-      ),
-    ),
-  );
-}
+
 
 Widget statusToString(StatusCycle status) {
   String text;

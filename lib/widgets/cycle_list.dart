@@ -1,8 +1,8 @@
-import 'package:calendar_strip/calendar_strip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timtrack/bloc/cycles/cycles_bloc.dart';
 import 'package:timtrack/bloc/cycles/cycles_state.dart';
+import 'package:timtrack/data/data.dart';
 import 'package:timtrack/widgets/cycle_item.dart';
 import 'package:timtrack/widgets/empty_list.dart';
 
@@ -18,7 +18,7 @@ class CycleList extends StatelessWidget {
             height: 40,
           );
         } else if (state is CyclesLoadSuccess) {
-          final cycles = state.cycles;
+          final cycles = listCycles;
           if (cycles.isEmpty)
             return EmptyList(
               asset: 'assets/empty_list.png',
